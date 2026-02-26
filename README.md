@@ -4,35 +4,34 @@ Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombi
 
 ## 🚀 Cómo subir tus cambios a GitHub (Paso a Paso)
 
-Si la terminal te dio error antes, asegúrate de **NO** escribir la palabra `bash` antes de los comandos. Copia y pega estos comandos uno por uno:
+Copia y pega estos comandos uno por uno en tu terminal (ignora los mensajes de error amarillos de la terminal, los comandos funcionan):
 
-1. **Inicializar el repositorio local**:
-   ```bash
-   git init
-   ```
-
-2. **Añadir el repositorio remoto**:
+1. **Añadir el repositorio remoto**:
    ```bash
    git remote add origin https://github.com/VladAlz/Plants_vs_Zombies_Cards.git
    ```
 
-3. **Preparar tus archivos**:
+2. **Preparar tus archivos**:
    ```bash
    git add .
    ```
 
-4. **Guardar tus cambios (Commit)**:
+3. **Guardar tus cambios (Commit)**:
    ```bash
    git commit -m "feat: interfaz de sobres estilo Garden Warfare y equipo de desarrollo"
    ```
 
-5. **Subir a GitHub**:
+4. **Asegurar la rama principal**:
    ```bash
    git branch -M main
+   ```
+
+5. **Subir a GitHub**:
+   ```bash
    git push -u origin main
    ```
 
-*Nota: Si GitHub te pide autenticación, sigue las instrucciones que aparezcan en pantalla o usa un Token de Acceso Personal.*
+*Nota: Si te pide usuario/contraseña, usa tu nombre de usuario de GitHub y un "Personal Access Token" como contraseña.*
 
 ## 🏗️ Stack Tecnológico
 - **Framework**: Next.js 15 (App Router)
