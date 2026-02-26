@@ -6,7 +6,7 @@ import GuessNumber from "@/components/modules/guess-number";
 import UnitConverter from "@/components/modules/unit-converter";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sun, ShieldCheck, Zap, Crosshair } from "lucide-react";
+import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
 
 export default async function MemberPage({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -30,63 +30,66 @@ export default async function MemberPage({ params }: { params: { id: string } })
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#5d4037] flex flex-col">
       {/* Barra de Navegación de Batalla */}
-      <nav className="border-b-[8px] border-black bg-black sticky top-0 z-50 h-20">
+      <nav className="border-b-[10px] border-black bg-[#2e7d32] sticky top-0 z-50 h-24">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
-          <Button variant="outline" asChild className="border-4 border-white bg-transparent text-white font-black uppercase italic hover:bg-white hover:text-black rounded-none shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
+          <Button variant="outline" asChild className="border-4 border-black bg-[#ff5252] text-white font-black uppercase italic hover:bg-[#ff1744] hover:text-white rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] h-14">
             <Link href="/">
-              <ArrowLeft className="w-4 h-4 mr-2" /> ABORTAR MISIÓN
+              <ArrowLeft className="w-6 h-6 mr-2" /> REPLEGARSE
             </Link>
           </Button>
-          <div className="flex items-center gap-4">
+          
+          <div className="flex items-center gap-6">
              <div className="flex flex-col items-end">
-               <span className="text-white font-black italic uppercase leading-none">{member.name}</span>
-               <span className="text-yellow-400 text-xs font-black uppercase tracking-widest">{member.role}</span>
+               <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
+               <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{member.role}</span>
              </div>
-             <div className="bg-yellow-400 border-4 border-black px-4 py-1 flex items-center gap-2">
-               <span className="text-xl font-black">{member.cost}</span>
-               <Sun className="w-5 h-5 fill-black" />
+             <div className="bg-yellow-400 border-4 border-black px-6 py-2 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+               <span className="text-3xl font-black">{member.cost}</span>
+               <Sun className="w-8 h-8 fill-black text-black sun-glow" />
              </div>
           </div>
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <main className="container mx-auto px-4 py-16 flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Ficha de Personaje */}
-          <div className="lg:col-span-4 space-y-8">
-            <div className="concrete-panel p-8">
-              <div className="relative aspect-square w-full border-4 border-black mb-6 bg-sky-200 overflow-hidden">
+          <div className="lg:col-span-4 space-y-10">
+            <div className="wooden-panel p-10 transform -rotate-1">
+              <div className="relative aspect-square w-full border-8 border-black mb-8 bg-[#81d4fa] overflow-hidden shadow-inner">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover"
+                  className="object-cover p-6"
                 />
               </div>
               
-              <div className="mb-8">
-                <h1 className="text-4xl font-black italic uppercase text-black leading-tight mb-2">{member.name}</h1>
-                <div className="inline-block bg-green-600 text-white text-xs font-black px-3 py-1 uppercase border-2 border-black">
+              <div className="mb-8 text-center">
+                <h1 className="text-5xl font-black italic uppercase text-white leading-tight mb-2 tracking-tighter drop-shadow-md">
+                  {member.name}
+                </h1>
+                <div className="inline-block bg-[#ffeb3b] text-black text-xs font-black px-4 py-2 uppercase border-2 border-black rotate-1">
                   ESPECIALISTA EN {member.role.split(' ')[0]}
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="bg-black/5 p-4 border-l-8 border-black italic font-bold text-gray-700">
+              <div className="space-y-8">
+                <div className="bg-black/20 p-6 border-l-8 border-yellow-400 italic font-bold text-white text-lg">
                   "{member.description}"
                 </div>
 
-                <div className="pt-6 border-t-4 border-black">
-                  <h3 className="text-sm font-black uppercase italic mb-4 flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-yellow-500" /> ATRIBUTOS DE COMBATE
+                <div className="pt-8 border-t-4 border-white/20">
+                  <h3 className="text-sm font-black uppercase italic mb-6 flex items-center gap-2 text-yellow-400">
+                    <Zap className="w-5 h-5" /> HABILIDADES DE JARDÍN
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-6">
                     {member.stats.map(s => (
-                      <div key={s.label} className="bg-white border-2 border-black p-2 text-center">
-                        <div className="text-[10px] font-black uppercase opacity-60 leading-none mb-1">{s.label}</div>
-                        <div className="text-xl font-black italic">{s.value}</div>
+                      <div key={s.label} className="bg-white border-4 border-black p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="text-[11px] font-black uppercase opacity-60 leading-none mb-1 text-black">{s.label}</div>
+                        <div className="text-2xl font-black italic text-black">{s.value}</div>
                       </div>
                     ))}
                   </div>
@@ -95,20 +98,20 @@ export default async function MemberPage({ params }: { params: { id: string } })
             </div>
           </div>
 
-          {/* Campo de Pruebas */}
+          {/* Campo de Pruebas - LA PISCINA / PATIO */}
           <div className="lg:col-span-8">
-            <div className="grass-pattern border-8 border-black p-8 lg:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] h-full min-h-[600px] flex flex-col">
-              <div className="concrete-panel p-6 mb-10 inline-block self-center text-center">
-                <h2 className="text-4xl font-black italic uppercase text-black flex items-center justify-center gap-3">
-                  <Crosshair className="w-8 h-8" /> CAMPO DE PRUEBAS
+            <div className="pvz-pool h-full min-h-[700px] flex flex-col p-10 lg:p-16 border-[12px] border-[#3e2723] rounded-3xl">
+              <div className="wooden-panel p-8 mb-16 inline-block self-center text-center transform rotate-1">
+                <h2 className="text-5xl font-black italic uppercase text-white flex items-center justify-center gap-4">
+                  <Waves className="w-10 h-10 text-cyan-200" /> ZONA DE PRUEBAS
                 </h2>
-                <p className="text-gray-700 font-bold italic mt-2">
-                  PRUEBA LAS HABILIDADES DE {member.name} PARA FORTALECER EL JARDÍN.
+                <p className="text-white/80 font-bold italic mt-2 uppercase tracking-wide">
+                  ENTRENA A {member.name} PARA REPELERN LA OLEADA DE BUGS.
                 </p>
               </div>
 
-              <div className="flex-1 flex items-center justify-center">
-                <div className="w-full max-w-xl">
+              <div className="flex-1 flex items-center justify-center relative z-10">
+                <div className="w-full max-w-2xl bg-white/90 p-8 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,0.5)]">
                   {renderTool()}
                 </div>
               </div>
