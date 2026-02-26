@@ -2,31 +2,26 @@
 
 Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombies: Garden Warfare**. Es una plataforma para presentar equipos de desarrollo de una manera divertida y gamificada.
 
-## 🚀 Cómo subir tus cambios a GitHub (Paso a Paso)
+## 🚀 Cómo subir tus cambios a GitHub (Paso a Paso Final)
 
-Copia y pega estos comandos uno por uno en tu terminal (ignora los mensajes de error amarillos de la terminal, los comandos funcionan):
+Copia y pega estos comandos uno por uno en tu terminal (ignora los mensajes de error amarillos de la terminal):
 
-1. **Añadir el repositorio remoto**:
-   ```bash
-   git remote add origin https://github.com/VladAlz/Plants_vs_Zombies_Cards.git
-   ```
-
-2. **Preparar tus archivos**:
+1. **Preparar tus archivos**:
    ```bash
    git add .
    ```
 
-3. **Guardar tus cambios (Commit)**:
+2. **Guardar tus cambios (Commit)**:
    ```bash
    git commit -m "feat: interfaz de sobres estilo Garden Warfare y equipo de desarrollo"
    ```
 
-4. **Asegurar la rama principal**:
+3. **Asegurar la rama principal**:
    ```bash
    git branch -M main
    ```
 
-5. **Subir a GitHub**:
+4. **Subir a GitHub**:
    ```bash
    git push -u origin main
    ```
