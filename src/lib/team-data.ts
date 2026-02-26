@@ -98,18 +98,18 @@ export const teamMembers: Member[] = [
   },
   {
     id: 'juan-arcos',
-    name: 'Boca-de-Dragón-DevOps',
+    name: 'SCRIPT-KID',
     role: 'Arquitecto de Nube',
-    description: 'Despliega ráfagas de infraestructura escalable. Calienta los servidores para que el despliegue sea un éxito total.',
-    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
-    cardImage: '',
+    description: 'Su único vicio es la programación y las Arquinenas. Todo lo dicho y hecho aquí no representa lo que soy (más o menos).',
+    packImage: '/members/juan-prime.jpeg',
+    cardImage: '/members/juan.jpeg',
     toolType: 'converter',
     color: 'bg-red-600',
     cost: 175,
     stats: [
-      { label: 'Fuego (Cloud)', value: 96 },
-      { label: 'Escalabilidad', value: 94 },
-      { label: 'Calor', value: 88 }
+      { label: 'Espanta Viejas', value: 100 },
+      { label: 'Homofobia', value: 50 },
+      { label: 'Inimputable', value: 0 }
     ]
   }
 ];

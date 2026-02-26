@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -7,6 +6,7 @@ import GuessNumber from "@/components/modules/guess-number";
 import PacmanGame from "@/components/modules/pacman-game";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
+import SnakeGame from "@/components/modules/SnakeGame";  // ← NUEVO IMPORT
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
 
@@ -23,7 +23,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
       case "game":
         return <GuessNumber />;
       case "converter":
-        return <PacmanGame />;
+        return member.id === 'juan-arcos' ? <SnakeGame /> : <PacmanGame />;
       case "calculator":
         return <BMICalculator />;
       case "pdf-viewer":
@@ -75,7 +75,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
                 <h1 className="text-5xl font-black italic uppercase text-white leading-tight mb-2 tracking-tighter drop-shadow-md">
                   {member.name}
                 </h1>
-                <div className="inline-block bg-[#ffeb3b] text-black text-xs font-black px-4 py-2 uppercase border-2 border-black rotate-1">
+                <div className="inline-block bg-[#ffeb3b] text-black text-xs font-bold px-4 py-2 uppercase border-2 border-black rotate-1">
                   ESPECIALISTA EN {member.role.split(' ')[0]}
                 </div>
               </div>

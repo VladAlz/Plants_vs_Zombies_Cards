@@ -2,12 +2,13 @@ import Link from "next/link";
 import { teamMembers } from "@/lib/team-data";
 import StickerPack from "@/components/sticker-pack";
 import { Button } from "@/components/ui/button";
+import BackgroundMusic from "@/components/ui/BackgroundMusic";  // ← NUEVO IMPORT
 import { Sun, ShieldAlert, Skull, Waves, ShoppingCart } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#263238]">
-      {/* Header Estilo Menu GW */}
+      {/* Header Estilo Menu GW + MÚSICA */}
       <nav className="h-20 bg-[#37474f] border-b-8 border-black sticky top-0 z-50">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -20,11 +21,15 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
+            {/* SOLS */}
             <div className="flex items-center gap-2 bg-black/40 px-6 py-2 border-4 border-black">
               <span className="text-yellow-400 font-black text-2xl">127,880</span>
               <Sun className="w-6 h-6 fill-yellow-400 text-yellow-400 sun-glow" />
             </div>
+            
+            {/* MÚSICA - Botón PvZ style */}
+            <BackgroundMusic />
           </div>
         </div>
       </nav>
