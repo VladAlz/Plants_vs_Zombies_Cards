@@ -3,21 +3,39 @@
   "placeholderImages": [
     {
       "id": "member-1",
-      "description": "Professional portrait of a male developer",
-      "imageUrl": "https://picsum.photos/seed/dev1/400/400",
-      "imageHint": "professional developer"
+      "description": "Professional portrait of a male developer (Peashooter style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-pea/400/400",
+      "imageHint": "cartoon peashooter"
     },
     {
       "id": "member-2",
-      "description": "Professional portrait of a female designer",
-      "imageUrl": "https://picsum.photos/seed/dev2/400/400",
-      "imageHint": "professional designer"
+      "description": "Professional portrait of a female designer (Sunflower style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-sun/400/400",
+      "imageHint": "cartoon sunflower"
     },
     {
       "id": "member-3",
-      "description": "Professional portrait of a male engineer",
-      "imageUrl": "https://picsum.photos/seed/dev3/400/400",
-      "imageHint": "software engineer"
+      "description": "Professional portrait of a male engineer (Wall-nut style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-nut/400/400",
+      "imageHint": "cartoon wallnut"
+    },
+    {
+      "id": "member-4",
+      "description": "Professional portrait of a project manager (Citron style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-citron/400/400",
+      "imageHint": "cartoon citron"
+    },
+    {
+      "id": "member-5",
+      "description": "Professional portrait of a QA tester (Shadow Flower style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-shadow/400/400",
+      "imageHint": "cartoon shadow"
+    },
+    {
+      "id": "member-6",
+      "description": "Professional portrait of a DevOps engineer (Snapdragon style)",
+      "imageUrl": "https://picsum.photos/seed/pvz-dragon/400/400",
+      "imageHint": "cartoon dragon"
     }
   ]
 }

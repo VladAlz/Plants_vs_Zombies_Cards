@@ -1,3 +1,4 @@
+
 export type Member = {
   id: string;
   name: string;
@@ -59,4 +60,49 @@ export const teamMembers: Member[] = [
       { label: 'Flexibilidad', value: 60 }
     ]
   },
+  {
+    id: 'carlos-perez',
+    name: 'Pomelo-Project',
+    role: 'Líder de Escuadrón',
+    description: 'Gestiona los recursos del jardín con una armadura de cítricos. Su liderazgo es el escudo que protege los plazos de entrega.',
+    image: 'https://picsum.photos/seed/pvz-citron/400/400',
+    toolType: 'calculator',
+    color: 'bg-orange-500',
+    cost: 200,
+    stats: [
+      { label: 'Gestión', value: 90 },
+      { label: 'Liderazgo', value: 95 },
+      { label: 'Dureza', value: 85 }
+    ]
+  },
+  {
+    id: 'sofia-ruiz',
+    name: 'Sombra-QA',
+    role: 'Especialista en Bugs',
+    description: 'Se mueve entre las sombras del código para encontrar errores que nadie más ve. Su precisión es quirúrgica.',
+    image: 'https://picsum.photos/seed/pvz-shadow/400/400',
+    toolType: 'game',
+    color: 'bg-purple-800',
+    cost: 150,
+    stats: [
+      { label: 'Sigilo', value: 98 },
+      { label: 'Precisión', value: 92 },
+      { label: 'Detección', value: 100 }
+    ]
+  },
+  {
+    id: 'diego-torres',
+    name: 'Boca-de-Dragón-DevOps',
+    role: 'Arquitecto de Nube',
+    description: 'Despliega ráfagas de infraestructura escalable. Calienta los servidores para que el despliegue sea un éxito total.',
+    image: 'https://picsum.photos/seed/pvz-dragon/400/400',
+    toolType: 'converter',
+    color: 'bg-red-600',
+    cost: 175,
+    stats: [
+      { label: 'Fuego (Cloud)', value: 96 },
+      { label: 'Escalabilidad', value: 94 },
+      { label: 'Calor', value: 88 }
+    ]
+  }
 ];
