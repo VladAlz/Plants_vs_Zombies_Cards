@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -7,7 +6,7 @@ import GuessNumber from "@/components/modules/guess-number";
 import UnitConverter from "@/components/modules/unit-converter";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronRight, Home, Layout, Mail, Linkedin, Twitter } from "lucide-react";
+import { ArrowLeft, ChevronRight, Home, Sun, TreePine, ShieldCheck } from "lucide-react";
 
 export default async function MemberPage({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -32,42 +31,43 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
   const getToolName = (type: string) => {
     switch (type) {
-      case "game": return "juego";
-      case "converter": return "conversor";
-      case "calculator": return "calculadora";
+      case "game": return "guisante-juego";
+      case "converter": return "conversor-solar";
+      case "calculator": return "nuez-calculadora";
       default: return "módulo";
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Barra de Navegación */}
-      <nav className="border-b bg-white/50 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-[#55a630]">
+      {/* Barra de Navegación Estilo Madera */}
+      <nav className="border-b-8 border-black bg-[#795548] sticky top-0 z-10 h-20 shadow-xl">
+        <div className="container mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="outline" size="sm" asChild className="border-4 border-black bg-yellow-400 text-black font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <Link href="/">
-                <ArrowLeft className="w-4 h-4 mr-2" /> Volver
+                <ArrowLeft className="w-4 h-4 mr-2" /> Volver al Jardín
               </Link>
             </Button>
-            <div className="hidden sm:flex items-center text-sm text-muted-foreground gap-2">
-              <Link href="/" className="hover:text-primary">Inicio</Link>
+            <div className="hidden sm:flex items-center text-sm text-white/80 gap-2 font-black italic uppercase">
+              <Link href="/" className="hover:text-yellow-400">Inicio</Link>
               <ChevronRight className="w-3 h-3" />
-              <span className="font-medium text-foreground">{member.name}</span>
+              <span className="text-yellow-400">{member.name}</span>
             </div>
           </div>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/"><Home className="w-5 h-5" /></Link>
-          </Button>
+          <div className="flex items-center gap-2 bg-black/20 px-4 py-2 border-2 border-black/40">
+            <span className="text-2xl font-black text-yellow-400">{member.cost}</span>
+            <Sun className="w-6 h-6 fill-yellow-400 text-black sun-glow" />
+          </div>
         </div>
       </nav>
 
       <main className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Perfil */}
+          {/* Perfil de Planta */}
           <div className="lg:col-span-4 space-y-8">
-            <div className="bg-white rounded-3xl p-8 shadow-sm border">
-              <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden ring-4 ring-primary/10">
+            <div className="bg-[#795548] border-8 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.8)]">
+              <div className="relative w-full aspect-square mx-auto mb-6 border-4 border-black bg-green-200 overflow-hidden">
                 <Image
                   src={member.image}
                   alt={member.name}
@@ -76,52 +76,59 @@ export default async function MemberPage({ params }: { params: { id: string } })
                 />
               </div>
               <div className="text-center space-y-2 mb-8">
-                <h1 className="text-3xl font-black">{member.name}</h1>
-                <p className="text-primary font-bold uppercase tracking-widest text-sm">{member.role}</p>
+                <h1 className="text-4xl font-black text-yellow-400 uppercase italic drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">{member.name}</h1>
+                <p className="text-green-400 font-bold uppercase tracking-widest text-sm drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">{member.role}</p>
               </div>
               
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-muted-foreground uppercase mb-2">Biografía</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {member.description}
+              <div className="space-y-6 text-white">
+                <div className="bg-black/20 p-4 border-2 border-black/30">
+                  <h3 className="text-sm font-black text-yellow-400 uppercase mb-2 italic">Entrada del Almanaque</h3>
+                  <p className="text-sm leading-relaxed font-bold italic">
+                    "{member.description}"
                   </p>
                 </div>
 
-                <div className="pt-6 border-t flex flex-col gap-3">
-                   <h3 className="text-sm font-bold text-muted-foreground uppercase mb-1">Contacto</h3>
-                   <div className="flex gap-2">
-                     <Button variant="secondary" size="icon" className="rounded-xl"><Mail className="w-4 h-4" /></Button>
-                     <Button variant="secondary" size="icon" className="rounded-xl"><Linkedin className="w-4 h-4" /></Button>
-                     <Button variant="secondary" size="icon" className="rounded-xl"><Twitter className="w-4 h-4" /></Button>
+                <div className="pt-6 border-t-4 border-black flex flex-col gap-3">
+                   <h3 className="text-sm font-black text-yellow-400 uppercase mb-1 italic">Habilidades Especiales</h3>
+                   <div className="flex gap-4">
+                     {member.stats.slice(0, 2).map(s => (
+                       <div key={s.label} className="flex flex-col items-center gap-1">
+                         <div className="w-12 h-12 bg-green-500 rounded-full border-4 border-black flex items-center justify-center">
+                           <ShieldCheck className="w-6 h-6 text-black" />
+                         </div>
+                         <span className="text-[10px] font-black uppercase text-center">{s.label}</span>
+                       </div>
+                     ))}
                    </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-accent/10 rounded-2xl p-6 border border-accent/20">
-              <h3 className="font-bold flex items-center gap-2 mb-2">
-                <Layout className="w-4 h-4 text-primary" />
-                Tarea Individual
+            <div className="bg-yellow-400 rounded-none p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+              <h3 className="font-black flex items-center gap-2 mb-2 uppercase italic text-black">
+                <TreePine className="w-5 h-5" />
+                Defensa de Código
               </h3>
-              <p className="text-sm text-muted-foreground">
-                Asignado para construir un módulo de {getToolName(member.toolType)} enfocado en la interactividad y manejo de datos.
+              <p className="text-sm font-bold text-black italic">
+                Este desarrollador planta utiliza su {getToolName(member.toolType)} para mantener la estabilidad del sistema contra oleadas de bugs.
               </p>
             </div>
           </div>
 
-          {/* Área del Módulo Interactivo */}
+          {/* Área del Patio de Pruebas */}
           <div className="lg:col-span-8">
-            <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-sm border h-full min-h-[600px] flex flex-col items-center justify-center bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+            <div className="bg-[#2b9348] border-8 border-black p-8 lg:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.8)] h-full min-h-[600px] flex flex-col items-center justify-center garden-pattern border-dashed">
               <div className="max-w-xl w-full">
                 <div className="text-center mb-10">
-                  <h2 className="text-3xl font-bold mb-4">Demostración Interactiva</h2>
-                  <p className="text-muted-foreground">
-                    Prueba el {getToolName(member.toolType)} creado por {member.name.split(' ')[0]}. 
-                    Ingresa tus datos abajo para ver el módulo en acción.
+                  <h2 className="text-4xl font-black mb-4 text-white uppercase italic drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">Patio de Pruebas</h2>
+                  <p className="text-white font-bold italic drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)] bg-black/20 p-2">
+                    Interactúa con el {getToolName(member.toolType)} de {member.name}. 
+                    ¡Cada acción genera puntos de sol para tu proyecto!
                   </p>
                 </div>
-                {renderTool()}
+                <div className="bg-white/10 backdrop-blur-sm p-8 border-4 border-black">
+                   {renderTool()}
+                </div>
               </div>
             </div>
           </div>
