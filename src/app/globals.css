@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 80 40% 98%;
-    --foreground: 120 40% 10%;
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 120 40% 10%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
     --primary: 100 80% 40%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 40% 98%;
     --secondary: 45 100% 50%;
-    --secondary-foreground: 120 40% 10%;
-    --muted: 100 10% 95%;
-    --muted-foreground: 120 5% 40%;
-    --accent: 200 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 10%;
-    --input: 100 20% 90%;
-    --ring: 100 80% 40%;
-    --radius: 0.75rem;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
   }
 }
 
@@ -36,7 +36,6 @@
   }
 }
 
-/* Tipografías Cómicas */
 .garden-text {
   @apply font-black italic uppercase tracking-tighter;
   background: linear-gradient(to bottom, #76ff03, #2e7d32);
@@ -53,68 +52,76 @@
   filter: drop-shadow(4px 4px 0px rgba(0,0,0,1));
 }
 
-/* Patrón de Césped Cuadriculado PvZ */
+/* Animaciones de Sobres */
+@keyframes pack-shake {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-5deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+}
+
+.pack-hit {
+  animation: pack-shake 0.2s ease-in-out;
+}
+
+@keyframes pack-open {
+  0% { transform: scale(1); opacity: 1; filter: brightness(1); }
+  50% { transform: scale(1.2); opacity: 0.8; filter: brightness(2); }
+  100% { transform: scale(0); opacity: 0; filter: brightness(5); }
+}
+
+.pack-opening {
+  animation: pack-open 0.6s forwards ease-in;
+}
+
+@keyframes card-reveal {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.card-reveal {
+  animation: card-reveal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Estilo de Sobre Metalizado */
+.sticker-pack-wrapper {
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+  border: 4px solid #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.sticker-pack-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 20px;
+  background: repeating-linear-gradient(90deg, #ccc 0, #ccc 2px, transparent 2px, transparent 4px);
+  opacity: 0.5;
+}
+
+.sticker-pack-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 20px;
+  background: repeating-linear-gradient(90deg, #ccc 0, #ccc 2px, transparent 2px, transparent 4px);
+  opacity: 0.5;
+}
+
 .pvz-lawn {
   background-color: #55a630;
   background-image: repeating-conic-gradient(#2b9348 0% 25%, #55a630 0% 50%) 50% / 80px 80px;
-  position: relative;
 }
 
-.pvz-lawn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.1) 100%);
-  pointer-events: none;
-}
-
-/* Patrón de Piscina */
-.pvz-pool {
-  background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);
-  position: relative;
-  overflow: hidden;
-  border: 8px solid #8d6e63;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
-}
-
-.pvz-pool::after {
-  content: "";
-  position: absolute;
-  top: -50%; left: -50%; right: -50%; bottom: -50%;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 20%);
-  background-size: 120px 120px;
-  animation: water-ripple 8s infinite linear;
-  pointer-events: none;
-}
-
-@keyframes water-ripple {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Estilo de Tablón de Madera */
 .wooden-panel {
   background: #8d6e63;
   border: 6px solid #4e342e;
   box-shadow: 6px 6px 0px #000;
-  position: relative;
 }
 
-.wooden-panel::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 2px solid rgba(255,255,255,0.1);
-  pointer-events: none;
-}
-
-/* Cartas estilo "Seed Packet" */
-.seed-packet {
-  @apply border-[6px] border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 overflow-hidden bg-[#d7ccc8];
-}
-
-.seed-packet:hover {
-  @apply -translate-y-3 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)];
+.pvz-pool {
+  background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);
+  border: 8px solid #8d6e63;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
 }
 
 .sun-glow {
