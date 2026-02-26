@@ -1,41 +1,63 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 type Vec = { x: number; y: number };
+type Status = "playing" | "won" | "lost";
 
-const TILE = 34; // 👈 MÁS GRANDE (antes 24)
-const STEP = 1 / 10; // 10 tiles por segundo
+type Ghost = {
+  id: number;
+  pos: Vec;
+  dir: Vec;
+  color: string;
+  // “memoria” para que no cambie de dirección cada micro-momento
+  thinkCooldown: number;
+};
 
-// Mapa: # = pared, . = pellet, P = inicio pacman, G = inicio fantasma
+const TILE = 34;
+
+// Velocidad de Pac-Man (10 tiles/seg aprox)
+const PAC_STEP = 1 / 10;
+
+// Fantasmas MÁS LENTOS (menor velocidad => mayor step)
+const GHOST_STEP = 1 / 6; // ~6 tiles/seg (más lento que pac)
+
+// Limita dt para evitar saltos bruscos
+const DT_CLAMP = 0.05;
+
+// Mapa más robusto: se calcula w por la fila más larga
+// # = pared, . = pellet, P = pacman, G = spawn fantasma (puedes poner varios G)
 const RAW_MAP = [
-  "####################",
+  "#####################",
   "#P....#.............#",
   "#.##.#.####.####.##.#",
   "#....#....#....#....#",
   "####.####.#.####.####",
   "#...........#........#",
   "#.##.#####.###.##.####",
-  "#....#...#..G..#.....#",
+  "#....#...#..G..#..G..#",
   "#.####.#.#####.#.###.#",
-  "#......#.......#.....#",
-  "####################",
+  "#..G...#.......#..G..#",
+  "#####################",
 ];
 
 function keyOf(v: Vec) {
   return `${v.x},${v.y}`;
 }
-
 function add(a: Vec, b: Vec): Vec {
   return { x: a.x + b.x, y: a.y + b.y };
 }
-
 function equal(a: Vec, b: Vec) {
   return a.x === b.x && a.y === b.y;
 }
-
 function clampDir(d: Vec): Vec {
   if (d.x > 0) return { x: 1, y: 0 };
   if (d.x < 0) return { x: -1, y: 0 };
@@ -43,30 +65,43 @@ function clampDir(d: Vec): Vec {
   if (d.y < 0) return { x: 0, y: -1 };
   return { x: 0, y: 0 };
 }
+function manhattan(a: Vec, b: Vec) {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+function mul(v: Vec, s: number): Vec {
+  return { x: v.x * s, y: v.y * s };
+}
+function randInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function opposite(d: Vec): Vec {
+  return { x: -d.x, y: -d.y };
+}
 
 function parseMap() {
   const h = RAW_MAP.length;
-  const w = RAW_MAP[0].length;
+  const w = Math.max(...RAW_MAP.map((r) => r.length));
 
   let pac: Vec = { x: 1, y: 1 };
-  let ghost: Vec = { x: 1, y: 1 };
+  const ghostSpawns: Vec[] = [];
 
   const walls = new Set<string>();
   const pellets = new Set<string>();
 
   for (let y = 0; y < h; y++) {
+    const row = RAW_MAP[y] ?? "";
     for (let x = 0; x < w; x++) {
-      const ch = RAW_MAP[y][x];
+      const ch = row[x] ?? "#"; // si falta, lo tratamos como pared
       const key = `${x},${y}`;
 
       if (ch === "#") walls.add(key);
       if (ch === ".") pellets.add(key);
       if (ch === "P") pac = { x, y };
-      if (ch === "G") ghost = { x, y };
+      if (ch === "G") ghostSpawns.push({ x, y });
     }
   }
 
-  return { w, h, pac, ghost, walls, pellets };
+  return { w, h, pac, ghostSpawns, walls, pellets };
 }
 
 export default function PacmanGame() {
@@ -78,40 +113,80 @@ export default function PacmanGame() {
   const H = initial.h;
 
   const [pac, setPac] = useState<Vec>(initial.pac);
-  const [ghost, setGhost] = useState<Vec>(initial.ghost);
   const [dir, setDir] = useState<Vec>({ x: 1, y: 0 });
   const [nextDir, setNextDir] = useState<Vec>({ x: 1, y: 0 });
   const [pellets, setPellets] = useState<Set<string>>(new Set(initial.pellets));
   const [score, setScore] = useState<number>(0);
-  const [status, setStatus] = useState<"playing" | "won" | "lost">("playing");
+  const [status, setStatus] = useState<Status>("playing");
 
-  // ✅ Refs para evitar "estado viejo" en el loop
+  // 4 fantasmas (si el mapa trae menos spawns, se “rellena” cerca del primero)
+  const [ghosts, setGhosts] = useState<Ghost[]>(() => createGhosts(initial));
+
+  // Refs para loop estable
   const pacRef = useRef<Vec>(initial.pac);
-  const ghostRef = useRef<Vec>(initial.ghost);
   const dirRef = useRef<Vec>({ x: 1, y: 0 });
   const nextDirRef = useRef<Vec>({ x: 1, y: 0 });
-  const statusRef = useRef<"playing" | "won" | "lost">("playing");
+  const pelletsRef = useRef<Set<string>>(new Set(initial.pellets));
+  const ghostsRef = useRef<Ghost[]>(createGhosts(initial));
+  const statusRef = useRef<Status>("playing");
+  const scoreRef = useRef<number>(0);
 
-  // ✅ Control del tiempo del loop (para evitar salto al inicio/reiniciar)
+  // acumuladores de tiempo independientes
   const lastRef = useRef<number>(performance.now());
-  const accRef = useRef<number>(0);
+  const pacAccRef = useRef<number>(0);
+  const ghostAccRef = useRef<number>(0);
 
-  // mantener refs sincronizados
-  useEffect(() => {
-    pacRef.current = pac;
-  }, [pac]);
-  useEffect(() => {
-    ghostRef.current = ghost;
-  }, [ghost]);
-  useEffect(() => {
-    dirRef.current = dir;
-  }, [dir]);
-  useEffect(() => {
-    nextDirRef.current = nextDir;
-  }, [nextDir]);
-  useEffect(() => {
-    statusRef.current = status;
-  }, [status]);
+  function createGhosts(parsed: ReturnType<typeof parseMap>): Ghost[] {
+    const colors = ["#ff4d6d", "#4dd7ff", "#ffb84d", "#b04dff"];
+    const sp = [...parsed.ghostSpawns];
+
+    // si no hay 4 spawns, intentamos colocar cerca del primero en casillas libres
+    const base = sp[0] ?? { x: 10, y: 7 };
+    const candidates: Vec[] = [
+      base,
+      add(base, { x: 1, y: 0 }),
+      add(base, { x: -1, y: 0 }),
+      add(base, { x: 0, y: 1 }),
+      add(base, { x: 0, y: -1 }),
+      add(base, { x: 2, y: 0 }),
+      add(base, { x: 0, y: 2 }),
+    ];
+
+    const isFree = (v: Vec) => {
+      if (v.x < 0 || v.y < 0 || v.x >= parsed.w || v.y >= parsed.h) return false;
+      return !parsed.walls.has(keyOf(v));
+    };
+
+    // construir lista final de 4 spawns
+    const finalSpawns: Vec[] = [];
+    const seen = new Set<string>();
+    for (const v of [...sp, ...candidates]) {
+      const k = keyOf(v);
+      if (!seen.has(k) && isFree(v)) {
+        finalSpawns.push(v);
+        seen.add(k);
+      }
+      if (finalSpawns.length >= 4) break;
+    }
+    while (finalSpawns.length < 4) finalSpawns.push(base);
+
+    return finalSpawns.slice(0, 4).map((pos, i) => ({
+      id: i,
+      pos,
+      dir: { x: i % 2 === 0 ? 1 : -1, y: 0 },
+      color: colors[i],
+      thinkCooldown: randInt(2, 6), // no “piensan” cada tick
+    }));
+  }
+
+  // sincronizar refs
+  useEffect(() => { pacRef.current = pac; }, [pac]);
+  useEffect(() => { dirRef.current = dir; }, [dir]);
+  useEffect(() => { nextDirRef.current = nextDir; }, [nextDir]);
+  useEffect(() => { pelletsRef.current = pellets; }, [pellets]);
+  useEffect(() => { ghostsRef.current = ghosts; }, [ghosts]);
+  useEffect(() => { statusRef.current = status; }, [status]);
+  useEffect(() => { scoreRef.current = score; }, [score]);
 
   function canMove(pos: Vec, d: Vec) {
     const n = add(pos, d);
@@ -123,23 +198,26 @@ export default function PacmanGame() {
     const fresh = parseMap();
 
     setPac(fresh.pac);
-    setGhost(fresh.ghost);
     setDir({ x: 1, y: 0 });
     setNextDir({ x: 1, y: 0 });
     setPellets(new Set(fresh.pellets));
     setScore(0);
     setStatus("playing");
 
-    // ✅ reiniciar refs también
+    const gs = createGhosts(fresh);
+    setGhosts(gs);
+
     pacRef.current = fresh.pac;
-    ghostRef.current = fresh.ghost;
     dirRef.current = { x: 1, y: 0 };
     nextDirRef.current = { x: 1, y: 0 };
+    pelletsRef.current = new Set(fresh.pellets);
+    ghostsRef.current = gs;
     statusRef.current = "playing";
+    scoreRef.current = 0;
 
-    // ✅ reiniciar tiempo (evita pérdida instantánea al reiniciar)
     lastRef.current = performance.now();
-    accRef.current = 0;
+    pacAccRef.current = 0;
+    ghostAccRef.current = 0;
   }
 
   // Controles teclado
@@ -165,8 +243,68 @@ export default function PacmanGame() {
     return () => window.removeEventListener("keydown", onKeyDown as any);
   }, []);
 
-  // Render (canvas)
-  const draw = (pelletsSnapshot: Set<string>) => {
+  // IA de fantasma “imperfecta”
+  function ghostChooseMove(g: Ghost, pacPos: Vec): Vec {
+    const g0 = g.pos;
+
+    const dirs: Vec[] = [
+      { x: 1, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+    ];
+
+    const options = dirs.filter((d) => canMove(g0, d));
+
+    if (options.length === 0) return g0;
+
+    // Evitar reversa (casi siempre), para que se mueva “natural”
+    const rev = opposite(g.dir);
+    const filtered =
+      options.length > 1
+        ? options.filter((d) => !(d.x === rev.x && d.y === rev.y))
+        : options;
+
+    const choices = filtered.length ? filtered : options;
+
+    // Probabilidad de perseguir (baja para que no parezca “GPS”)
+    // Mientras más cerca está, un poquito más probable
+    const dist = manhattan(g0, pacPos);
+    const chaseProb = dist <= 4 ? 0.55 : dist <= 8 ? 0.4 : 0.25;
+
+    const chase = Math.random() < chaseProb;
+
+    if (!chase) {
+      // patrulla / aleatorio con leve preferencia de seguir recto
+      const straight = choices.find((d) => d.x === g.dir.x && d.y === g.dir.y);
+      if (straight && Math.random() < 0.55) return add(g0, straight);
+
+      const pick = choices[randInt(0, choices.length - 1)];
+      return add(g0, pick);
+    }
+
+    // Chase “ruidoso”: apunta cerca de Pac-Man pero con error intencional
+    // Esto da impresión de que “intenta” pero no sabe exacto.
+    const noise: Vec = { x: randInt(-3, 3), y: randInt(-3, 3) };
+    const target = add(pacPos, noise);
+
+    let best = add(g0, choices[0]);
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    for (const d of choices) {
+      const n = add(g0, d);
+      // métrica hacia target con pequeña aleatoriedad
+      const s = manhattan(n, target) + Math.random() * 0.6;
+      if (s < bestScore) {
+        bestScore = s;
+        best = n;
+      }
+    }
+    return best;
+  }
+
+  // Render (canvas) con mejora visual
+  const draw = () => {
     const c = canvasRef.current;
     if (!c) return;
     const ctx = c.getContext("2d");
@@ -182,31 +320,63 @@ export default function PacmanGame() {
     ctx.fillStyle = "#0b1220";
     ctx.fillRect(0, 0, width, height);
 
-    // paredes
+    // sutil “grid”
+    ctx.globalAlpha = 0.08;
+    ctx.strokeStyle = "#ffffff";
+    for (let x = 0; x <= W; x++) {
+      ctx.beginPath();
+      ctx.moveTo(x * TILE, 0);
+      ctx.lineTo(x * TILE, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= H; y++) {
+      ctx.beginPath();
+      ctx.moveTo(0, y * TILE);
+      ctx.lineTo(width, y * TILE);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    // paredes (redondeadas)
     ctx.fillStyle = "#1f3b8f";
     walls.forEach((k) => {
       const [x, y] = k.split(",").map(Number);
-      ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+      const rx = x * TILE;
+      const ry = y * TILE;
+
+      const r = 7;
+      ctx.beginPath();
+      ctx.moveTo(rx + r, ry);
+      ctx.lineTo(rx + TILE - r, ry);
+      ctx.quadraticCurveTo(rx + TILE, ry, rx + TILE, ry + r);
+      ctx.lineTo(rx + TILE, ry + TILE - r);
+      ctx.quadraticCurveTo(rx + TILE, ry + TILE, rx + TILE - r, ry + TILE);
+      ctx.lineTo(rx + r, ry + TILE);
+      ctx.quadraticCurveTo(rx, ry + TILE, rx, ry + TILE - r);
+      ctx.lineTo(rx, ry + r);
+      ctx.quadraticCurveTo(rx, ry, rx + r, ry);
+      ctx.closePath();
+      ctx.fill();
     });
 
     // pellets
-    ctx.fillStyle = "#f5f5f5";
-    pelletsSnapshot.forEach((k) => {
+    ctx.fillStyle = "rgba(245,245,245,0.95)";
+    pelletsRef.current.forEach((k) => {
       const [x, y] = k.split(",").map(Number);
       const cx = x * TILE + TILE / 2;
       const cy = y * TILE + TILE / 2;
       ctx.beginPath();
-      ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 3.8, 0, Math.PI * 2);
       ctx.fill();
     });
 
-    // pacman
+    // Pac-Man (con boca)
     const p = pacRef.current;
     const px = p.x * TILE + TILE / 2;
     const py = p.y * TILE + TILE / 2;
 
     const d = dirRef.current;
-    const mouth = 0.35;
+    const mouth = 0.38;
     let angle = 0;
     if (d.x === 1) angle = 0;
     if (d.x === -1) angle = Math.PI;
@@ -220,17 +390,42 @@ export default function PacmanGame() {
     ctx.closePath();
     ctx.fill();
 
-    // fantasma
-    const g = ghostRef.current;
-    const gx = g.x * TILE + TILE / 2;
-    const gy = g.y * TILE + TILE / 2;
-    ctx.fillStyle = "#ff4d6d";
-    ctx.beginPath();
-    ctx.arc(gx, gy, TILE * 0.44, Math.PI, 0);
-    ctx.lineTo(gx + TILE * 0.44, gy + TILE * 0.44);
-    ctx.lineTo(gx - TILE * 0.44, gy + TILE * 0.44);
-    ctx.closePath();
-    ctx.fill();
+    // Fantasmas (4) + ojos
+    for (const g of ghostsRef.current) {
+      const gx = g.pos.x * TILE + TILE / 2;
+      const gy = g.pos.y * TILE + TILE / 2;
+
+      // cuerpo
+      ctx.fillStyle = g.color;
+      ctx.beginPath();
+      ctx.arc(gx, gy, TILE * 0.44, Math.PI, 0);
+      ctx.lineTo(gx + TILE * 0.44, gy + TILE * 0.46);
+
+      // “onditas” abajo
+      const waves = 4;
+      const w = (TILE * 0.88) / waves;
+      for (let i = 0; i < waves; i++) {
+        const wx = gx + TILE * 0.44 - w * (i + 0.5);
+        ctx.quadraticCurveTo(wx, gy + TILE * 0.34, wx - w / 2, gy + TILE * 0.46);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // ojos
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(gx - TILE * 0.14, gy - TILE * 0.08, TILE * 0.12, 0, Math.PI * 2);
+      ctx.arc(gx + TILE * 0.14, gy - TILE * 0.08, TILE * 0.12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // pupilas (mirando un poquito hacia su dirección)
+      const look = mul(g.dir, TILE * 0.05);
+      ctx.fillStyle = "#0b1220";
+      ctx.beginPath();
+      ctx.arc(gx - TILE * 0.14 + look.x, gy - TILE * 0.08 + look.y, TILE * 0.055, 0, Math.PI * 2);
+      ctx.arc(gx + TILE * 0.14 + look.x, gy - TILE * 0.08 + look.y, TILE * 0.055, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     // overlay fin
     if (statusRef.current !== "playing") {
@@ -241,7 +436,7 @@ export default function PacmanGame() {
       ctx.font = "bold 34px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText(
-        statusRef.current === "won" ? "¡GANASTE!" : "PERDISTE :(",
+        statusRef.current === "won" ? "¡GANASTE!" : "PERDISTE (como tu ultima relación) :(",
         width / 2,
         height / 2 - 12
       );
@@ -251,29 +446,23 @@ export default function PacmanGame() {
     }
   };
 
-  // Game loop
+  // Game loop (estable, no depende de pellets en deps)
   useEffect(() => {
     let raf = 0;
 
     const tick = (now: number) => {
-      // ✅ clamp de dt para evitar saltos gigantes
       const rawDt = (now - lastRef.current) / 1000;
-      const dt = Math.min(rawDt, 0.05); // máximo 50ms
+      const dt = Math.min(rawDt, DT_CLAMP);
       lastRef.current = now;
 
-      // ✅ limitar acumulación (por pestaña congelada)
-      accRef.current = Math.min(accRef.current + dt, 0.25);
-
-      // ✅ limitar pasos por frame
-      let steps = 0;
-      const MAX_STEPS_PER_FRAME = 5;
-
       if (statusRef.current === "playing") {
-        while (accRef.current >= STEP && steps < MAX_STEPS_PER_FRAME) {
-          accRef.current -= STEP;
-          steps++;
+        pacAccRef.current += dt;
+        ghostAccRef.current += dt;
 
-          // PACMAN
+        // ---- PAC MAN ----
+        while (pacAccRef.current >= PAC_STEP) {
+          pacAccRef.current -= PAC_STEP;
+
           const p0 = pacRef.current;
           let cd = dirRef.current;
 
@@ -284,79 +473,114 @@ export default function PacmanGame() {
             setDir(cd);
           }
 
-          // mover si se puede
-          let p1 = p0;
+          // mover
           if (canMove(p0, cd)) {
-            p1 = add(p0, cd);
+            const p1 = add(p0, cd);
             pacRef.current = p1;
             setPac(p1);
 
             // comer pellet
-            setPellets((prev) => {
-              const np = new Set(prev);
-              const k = keyOf(p1);
-              if (np.has(k)) {
-                np.delete(k);
-                setScore((s) => s + 10);
-              }
+            const k = keyOf(p1);
+            if (pelletsRef.current.has(k)) {
+              const np = new Set(pelletsRef.current);
+              np.delete(k);
+              pelletsRef.current = np;
+              setPellets(np);
+
+              scoreRef.current += 10;
+              setScore(scoreRef.current);
+
               if (np.size === 0) {
                 statusRef.current = "won";
                 setStatus("won");
               }
-              return np;
-            });
-          }
-
-          // GHOST (sigue a pacman)
-          const g0 = ghostRef.current;
-          const options: Vec[] = [
-            { x: 1, y: 0 },
-            { x: -1, y: 0 },
-            { x: 0, y: 1 },
-            { x: 0, y: -1 },
-          ].filter((d2) => canMove(g0, d2));
-
-          let best = g0;
-          let bestDist = Number.POSITIVE_INFINITY;
-          for (const d2 of options) {
-            const n = add(g0, d2);
-            const dist = Math.abs(n.x - pacRef.current.x) + Math.abs(n.y - pacRef.current.y);
-            if (dist < bestDist) {
-              bestDist = dist;
-              best = n;
             }
           }
-          ghostRef.current = best;
-          setGhost(best);
 
-          // colisión inmediata después de mover ambos
-          if (equal(pacRef.current, ghostRef.current)) {
-            statusRef.current = "lost";
-            setStatus("lost");
+          // colisión (si pac se mete encima)
+          for (const g of ghostsRef.current) {
+            if (equal(pacRef.current, g.pos)) {
+              statusRef.current = "lost";
+              setStatus("lost");
+              break;
+            }
+          }
+          if (statusRef.current !== "playing") break;
+        }
+
+        // ---- GHOSTS (más lentos) ----
+        while (ghostAccRef.current >= GHOST_STEP && statusRef.current === "playing") {
+          ghostAccRef.current -= GHOST_STEP;
+
+          const pacPos = pacRef.current;
+
+          const nextGhosts = ghostsRef.current.map((g) => {
+            let ng = { ...g };
+
+            // “pensar” solo cada ciertos movimientos
+            if (ng.thinkCooldown > 0) {
+              ng.thinkCooldown -= 1;
+            } else {
+              ng.thinkCooldown = randInt(2, 6);
+              // elegir nueva dirección en base a la IA imperfecta
+              const nextPos = ghostChooseMove(ng, pacPos);
+              const nd = clampDir({ x: nextPos.x - ng.pos.x, y: nextPos.y - ng.pos.y });
+              if (nd.x !== 0 || nd.y !== 0) ng.dir = nd;
+              ng.pos = nextPos;
+              return ng;
+            }
+
+            // si no “piensa”, intenta seguir recto; si no puede, elige otra
+            if (canMove(ng.pos, ng.dir)) {
+              ng.pos = add(ng.pos, ng.dir);
+            } else {
+              const dirs: Vec[] = [
+                { x: 1, y: 0 },
+                { x: -1, y: 0 },
+                { x: 0, y: 1 },
+                { x: 0, y: -1 },
+              ];
+              const opts = dirs.filter((d) => canMove(ng.pos, d));
+              const pick = opts.length ? opts[randInt(0, opts.length - 1)] : { x: 0, y: 0 };
+              ng.dir = pick;
+              ng.pos = add(ng.pos, pick);
+            }
+
+            return ng;
+          });
+
+          ghostsRef.current = nextGhosts;
+          setGhosts(nextGhosts);
+
+          // colisión tras mover fantasmas
+          for (const g of nextGhosts) {
+            if (equal(g.pos, pacRef.current)) {
+              statusRef.current = "lost";
+              setStatus("lost");
+              break;
+            }
           }
         }
       }
 
-      // dibujar con el estado actual
-      draw(pellets);
-
+      draw();
       raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pellets]);
+  }, []);
 
   return (
     <Card className="w-full max-w-5xl mx-auto shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-3">
-          <span>🎮 Pac-Man (demo)</span>
+          <span> Pac-Man: 4K Full Link Mediafire sin virus 1 link.</span>
           <span className="text-sm font-semibold">Score: {score}</span>
         </CardTitle>
         <CardDescription>
-          Controles: Flechas o WASD. Come todos los puntos y evita al fantasma.
+          Controles: Flechas o WASD. Obten todos los puntos y evita ser atrapado por los fantasmas.
         </CardDescription>
       </CardHeader>
 
@@ -370,7 +594,6 @@ export default function PacmanGame() {
           </div>
         </div>
 
-        {/* ✅ Más grande: card más ancha + canvas más grande por TILE */}
         <div className="w-full overflow-auto rounded-lg border bg-background p-4">
           <canvas ref={canvasRef} className="block mx-auto" />
         </div>
