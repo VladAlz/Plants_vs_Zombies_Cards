@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function PdfViewer() {
   const [isMaximized, setIsMaximized] = useState(false);
-
+  //XD
   // Manejar la tecla ESC para salir del modo pantalla completa
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
