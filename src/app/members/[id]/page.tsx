@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { teamMembers } from "@/lib/team-data";
 import GuessNumber from "@/components/modules/guess-number";
-import UnitConverter from "@/components/modules/unit-converter";
+import PacmanGame from "@/components/modules/pacman-game";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
       case "game":
         return <GuessNumber />;
       case "converter":
-        return <UnitConverter />;
+        return <PacmanGame />;
       case "calculator":
         return <BMICalculator />;
       case "pdf-viewer":
