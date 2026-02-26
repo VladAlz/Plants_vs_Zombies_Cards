@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "member-1",
+      "description": "Professional portrait of a male developer",
+      "imageUrl": "https://picsum.photos/seed/dev1/400/400",
+      "imageHint": "professional developer"
+    },
+    {
+      "id": "member-2",
+      "description": "Professional portrait of a female designer",
+      "imageUrl": "https://picsum.photos/seed/dev2/400/400",
+      "imageHint": "professional designer"
+    },
+    {
+      "id": "member-3",
+      "description": "Professional portrait of a male engineer",
+      "imageUrl": "https://picsum.photos/seed/dev3/400/400",
+      "imageHint": "software engineer"
+    }
+  ]
+}
