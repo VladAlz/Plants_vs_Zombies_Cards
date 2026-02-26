@@ -23,6 +23,16 @@ export default function UnitConverter() {
     in: 0.0254,
   };
 
+  const unitLabels: Record<string, string> = {
+    km: "Kilómetros",
+    m: "Metros",
+    cm: "Centímetros",
+    mm: "Milímetros",
+    mi: "Millas",
+    ft: "Pies",
+    in: "Pulgadas",
+  };
+
   const convert = () => {
     const val = parseFloat(value);
     if (isNaN(val)) return "0";
@@ -35,31 +45,31 @@ export default function UnitConverter() {
     <Card className="w-full max-w-md mx-auto shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Length Converter
+          Conversor de Longitud
         </CardTitle>
-        <CardDescription>Instantly convert between various metric and imperial units.</CardDescription>
+        <CardDescription>Convierte instantáneamente entre varias unidades métricas e imperiales.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Input Value</label>
+            <label className="text-sm font-medium">Valor de entrada</label>
             <Input
               type="number"
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="Enter value..."
+              placeholder="Ingresa un valor..."
             />
           </div>
           <div className="flex items-end gap-2">
             <div className="flex-1 space-y-2">
-              <label className="text-sm font-medium">From</label>
+              <label className="text-sm font-medium">De</label>
               <Select value={fromUnit} onValueChange={setFromUnit}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(units).map((u) => (
-                    <SelectItem key={u} value={u}>{u.toUpperCase()}</SelectItem>
+                    <SelectItem key={u} value={u}>{unitLabels[u]}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -68,14 +78,14 @@ export default function UnitConverter() {
               <ArrowRightLeft className="w-4 h-4" />
             </div>
             <div className="flex-1 space-y-2">
-              <label className="text-sm font-medium">To</label>
+              <label className="text-sm font-medium">A</label>
               <Select value={toUnit} onValueChange={setToUnit}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(units).map((u) => (
-                    <SelectItem key={u} value={u}>{u.toUpperCase()}</SelectItem>
+                    <SelectItem key={u} value={u}>{unitLabels[u]}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -84,7 +94,7 @@ export default function UnitConverter() {
         </div>
 
         <div className="bg-muted p-4 rounded-lg text-center">
-          <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">Result</p>
+          <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">Resultado</p>
           <p className="text-3xl font-bold text-primary">
             {convert()} <span className="text-lg font-normal">{toUnit.toUpperCase()}</span>
           </p>

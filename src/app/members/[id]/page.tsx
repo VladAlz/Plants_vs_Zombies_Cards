@@ -30,19 +30,28 @@ export default async function MemberPage({ params }: { params: { id: string } })
     }
   };
 
+  const getToolName = (type: string) => {
+    switch (type) {
+      case "game": return "juego";
+      case "converter": return "conversor";
+      case "calculator": return "calculadora";
+      default: return "módulo";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation Bar */}
+      {/* Barra de Navegación */}
       <nav className="border-b bg-white/50 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/">
-                <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                <ArrowLeft className="w-4 h-4 mr-2" /> Volver
               </Link>
             </Button>
             <div className="hidden sm:flex items-center text-sm text-muted-foreground gap-2">
-              <Link href="/" className="hover:text-primary">Home</Link>
+              <Link href="/" className="hover:text-primary">Inicio</Link>
               <ChevronRight className="w-3 h-3" />
               <span className="font-medium text-foreground">{member.name}</span>
             </div>
@@ -55,7 +64,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
       <main className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Profile Sidebar */}
+          {/* Perfil */}
           <div className="lg:col-span-4 space-y-8">
             <div className="bg-white rounded-3xl p-8 shadow-sm border">
               <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden ring-4 ring-primary/10">
@@ -73,14 +82,14 @@ export default async function MemberPage({ params }: { params: { id: string } })
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-bold text-muted-foreground uppercase mb-2">Biography</h3>
+                  <h3 className="text-sm font-bold text-muted-foreground uppercase mb-2">Biografía</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     {member.description}
                   </p>
                 </div>
 
                 <div className="pt-6 border-t flex flex-col gap-3">
-                   <h3 className="text-sm font-bold text-muted-foreground uppercase mb-1">Connect</h3>
+                   <h3 className="text-sm font-bold text-muted-foreground uppercase mb-1">Contacto</h3>
                    <div className="flex gap-2">
                      <Button variant="secondary" size="icon" className="rounded-xl"><Mail className="w-4 h-4" /></Button>
                      <Button variant="secondary" size="icon" className="rounded-xl"><Linkedin className="w-4 h-4" /></Button>
@@ -93,23 +102,23 @@ export default async function MemberPage({ params }: { params: { id: string } })
             <div className="bg-accent/10 rounded-2xl p-6 border border-accent/20">
               <h3 className="font-bold flex items-center gap-2 mb-2">
                 <Layout className="w-4 h-4 text-primary" />
-                Individual Task
+                Tarea Individual
               </h3>
               <p className="text-sm text-muted-foreground">
-                Assigned to build a {member.toolType} module focused on user interactivity and data handling.
+                Asignado para construir un módulo de {getToolName(member.toolType)} enfocado en la interactividad y manejo de datos.
               </p>
             </div>
           </div>
 
-          {/* Interactive Module Area */}
+          {/* Área del Módulo Interactivo */}
           <div className="lg:col-span-8">
             <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-sm border h-full min-h-[600px] flex flex-col items-center justify-center bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
               <div className="max-w-xl w-full">
                 <div className="text-center mb-10">
-                  <h2 className="text-3xl font-bold mb-4">Interactive Showcase</h2>
+                  <h2 className="text-3xl font-bold mb-4">Demostración Interactiva</h2>
                   <p className="text-muted-foreground">
-                    Try out the {member.toolType} built by {member.name.split(' ')[0]}. 
-                    Enter your data below to see the module in action.
+                    Prueba el {getToolName(member.toolType)} creado por {member.name.split(' ')[0]}. 
+                    Ingresa tus datos abajo para ver el módulo en acción.
                   </p>
                 </div>
                 {renderTool()}

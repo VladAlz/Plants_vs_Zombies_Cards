@@ -33,7 +33,7 @@ export default function TeamMemberCard({ member }: { member: Member }) {
         <div className="mt-auto">
           <Button asChild className="w-full group bg-primary hover:bg-primary/90">
             <Link href={`/members/${member.id}`} className="flex items-center justify-center">
-              View Personal Page
+              Ver Página Personal
               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>

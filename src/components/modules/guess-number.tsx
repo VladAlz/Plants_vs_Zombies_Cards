@@ -10,7 +10,7 @@ import { RefreshCcw, Send } from "lucide-react";
 export default function GuessNumber() {
   const [target, setTarget] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
-  const [message, setMessage] = useState<string>("Try to guess the number between 1 and 100!");
+  const [message, setMessage] = useState<string>("¡Intenta adivinar el número entre 1 y 100!");
   const [attempts, setAttempts] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
 
@@ -21,7 +21,7 @@ export default function GuessNumber() {
   const resetGame = () => {
     setTarget(Math.floor(Math.random() * 100) + 1);
     setGuess("");
-    setMessage("Try to guess the number between 1 and 100!");
+    setMessage("¡Intenta adivinar el número entre 1 y 100!");
     setAttempts(0);
     setGameOver(false);
   };
@@ -34,12 +34,12 @@ export default function GuessNumber() {
     setAttempts((prev) => prev + 1);
 
     if (num === target) {
-      setMessage(`Correct! You found it in ${attempts + 1} attempts!`);
+      setMessage(`¡Correcto! ¡Lo encontraste en ${attempts + 1} intentos!`);
       setGameOver(true);
     } else if (num < target) {
-      setMessage("Too low! Try a higher number.");
+      setMessage("¡Muy bajo! Intenta con un número mayor.");
     } else {
-      setMessage("Too high! Try a lower number.");
+      setMessage("¡Muy alto! Intenta con un número menor.");
     }
     setGuess("");
   };
@@ -48,14 +48,14 @@ export default function GuessNumber() {
     <Card className="w-full max-w-md mx-auto shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Guess the Number
+          Adivina el Número
         </CardTitle>
-        <CardDescription>A classic logic game to test your intuition.</CardDescription>
+        <CardDescription>Un juego clásico de lógica para poner a prueba tu intuición.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-center py-8">
           <p className="text-lg font-medium text-primary">{message}</p>
-          <p className="text-sm text-muted-foreground mt-2">Attempts: {attempts}</p>
+          <p className="text-sm text-muted-foreground mt-2">Intentos: {attempts}</p>
         </div>
         {!gameOver ? (
           <form onSubmit={handleGuess} className="flex gap-2">
@@ -63,18 +63,18 @@ export default function GuessNumber() {
               type="number"
               value={guess}
               onChange={(e) => setGuess(e.target.value)}
-              placeholder="Enter 1-100"
+              placeholder="Ingresa 1-100"
               min="1"
               max="100"
               required
             />
             <Button type="submit">
-              <Send className="w-4 h-4 mr-2" /> Guess
+              <Send className="w-4 h-4 mr-2" /> Adivinar
             </Button>
           </form>
         ) : (
           <Button onClick={resetGame} variant="secondary" className="w-full">
-            <RefreshCcw className="w-4 h-4 mr-2" /> Play Again
+            <RefreshCcw className="w-4 h-4 mr-2" /> Jugar de nuevo
           </Button>
         )}
       </CardContent>

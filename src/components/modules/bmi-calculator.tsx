@@ -22,48 +22,48 @@ export default function BMICalculator() {
   };
 
   const getCategory = (val: number) => {
-    if (val < 18.5) return { label: "Underweight", color: "text-blue-500" };
-    if (val < 25) return { label: "Normal weight", color: "text-green-500" };
-    if (val < 30) return { label: "Overweight", color: "text-yellow-500" };
-    return { label: "Obese", color: "text-red-500" };
+    if (val < 18.5) return { label: "Bajo peso", color: "text-blue-500" };
+    if (val < 25) return { label: "Peso normal", color: "text-green-500" };
+    if (val < 30) return { label: "Sobrepeso", color: "text-yellow-500" };
+    return { label: "Obesidad", color: "text-red-500" };
   };
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          BMI Calculator
+          Calculadora de IMC
         </CardTitle>
-        <CardDescription>Quickly calculate your Body Mass Index.</CardDescription>
+        <CardDescription>Calcula rápidamente tu Índice de Masa Corporal.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Weight (kg)</label>
+            <label className="text-sm font-medium">Peso (kg)</label>
             <Input
               type="number"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              placeholder="e.g. 70"
+              placeholder="ej. 70"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Height (cm)</label>
+            <label className="text-sm font-medium">Altura (cm)</label>
             <Input
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
-              placeholder="e.g. 175"
+              placeholder="ej. 175"
             />
           </div>
         </div>
         <Button className="w-full" onClick={calculateBMI}>
-          <Calculator className="w-4 h-4 mr-2" /> Calculate BMI
+          <Calculator className="w-4 h-4 mr-2" /> Calcular IMC
         </Button>
 
         {bmi !== null && (
           <div className="mt-6 p-6 border rounded-xl bg-muted/50 text-center animate-in fade-in slide-in-from-bottom-2">
-            <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold">Your BMI</p>
+            <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold">Tu IMC</p>
             <p className="text-5xl font-extrabold text-primary py-2">{bmi.toFixed(1)}</p>
             <p className={`text-lg font-semibold ${getCategory(bmi).color}`}>
               {getCategory(bmi).label}
