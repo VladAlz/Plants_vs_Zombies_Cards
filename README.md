@@ -2,33 +2,56 @@
 
 Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombies: Garden Warfare**. Es una plataforma para presentar equipos de desarrollo de una manera divertida y gamificada.
 
-## 🚀 Cómo subir tus cambios a GitHub (Paso a Paso Final)
+## 🛠️ Cómo ejecutar el proyecto en tu computadora (Local)
 
-Si recibes el error "rejected (non-fast-forward)", usa este comando especial para forzar la subida de tu diseño:
+Si descargaste el archivo .zip, sigue estos pasos para verlo funcionar:
 
-1. **Forzar la subida (Solución al error)**:
+### 1. Requisitos Previos
+*   **Node.js**: Debes tener instalado Node.js (versión 18 o superior). Puedes descargarlo en [nodejs.org](https://nodejs.org/).
+*   **Terminal**: Abre una terminal (CMD en Windows, Terminal en Mac/Linux) dentro de la carpeta descomprimida.
+
+### 2. Instalación de Dependencias
+Ejecuta el siguiente comando para instalar todo lo necesario:
+```bash
+npm install
+```
+
+### 3. Configuración de IA (Opcional)
+Si deseas que las funciones de IA funcionen, crea un archivo llamado `.env.local` en la raíz y añade tu llave de Google Gemini:
+```env
+GOOGLE_GENAI_API_KEY=tu_api_key_aqui
+```
+
+### 4. Iniciar el Servidor de Desarrollo
+Para ver la web en tu navegador, ejecuta:
+```bash
+npm run dev
+```
+Luego abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+---
+
+## 🚀 Cómo subir tus cambios a GitHub (Comandos de Terminal)
+
+Si recibes el error "rejected (non-fast-forward)", usa este comando especial para forzar la subida:
+
+1. **Vincular el repositorio**:
+   ```bash
+   git remote add origin https://github.com/VladAlz/Plants_vs_Zombies_Cards.git
+   ```
+
+2. **Preparar y Guardar**:
+   ```bash
+   git add .
+   git commit -m "feat: interfaz de sobres estilo Garden Warfare"
+   ```
+
+3. **Subir a GitHub (Forzado)**:
    ```bash
    git push -u origin main --force
    ```
 
-### Pasos normales si no hay errores:
-
-1. **Preparar tus archivos**:
-   ```bash
-   git add .
-   ```
-
-2. **Guardar tus cambios (Commit)**:
-   ```bash
-   git commit -m "feat: interfaz de sobres estilo Garden Warfare y equipo de desarrollo"
-   ```
-
-3. **Subir a GitHub**:
-   ```bash
-   git push -u origin main
-   ```
-
-*Nota: Si te pide usuario/contraseña, usa tu nombre de usuario de GitHub y un "Personal Access Token" como contraseña.*
+---
 
 ## 🏗️ Stack Tecnológico
 - **Framework**: Next.js 15 (App Router)
