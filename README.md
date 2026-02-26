@@ -4,7 +4,14 @@ Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombi
 
 ## 🚀 Cómo subir tus cambios a GitHub (Paso a Paso Final)
 
-Copia y pega estos comandos uno por uno en tu terminal (ignora los mensajes de error amarillos de la terminal):
+Si recibes el error "rejected (non-fast-forward)", usa este comando especial para forzar la subida de tu diseño:
+
+1. **Forzar la subida (Solución al error)**:
+   ```bash
+   git push -u origin main --force
+   ```
+
+### Pasos normales si no hay errores:
 
 1. **Preparar tus archivos**:
    ```bash
@@ -16,12 +23,7 @@ Copia y pega estos comandos uno por uno en tu terminal (ignora los mensajes de e
    git commit -m "feat: interfaz de sobres estilo Garden Warfare y equipo de desarrollo"
    ```
 
-3. **Asegurar la rama principal**:
-   ```bash
-   git branch -M main
-   ```
-
-4. **Subir a GitHub**:
+3. **Subir a GitHub**:
    ```bash
    git push -u origin main
    ```
