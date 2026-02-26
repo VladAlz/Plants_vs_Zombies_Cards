@@ -2,54 +2,142 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Maximize2, Minimize2, ShieldAlert, Cpu, X } from "lucide-react";
+import { Maximize2, Minimize2, ShieldAlert, Cpu, X, ArrowLeft, Gamepad2, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
-export default function PdfViewer() {
-  const [isMaximized, setIsMaximized] = useState(false);
-  //XD
-  // Manejar la tecla ESC para salir del modo pantalla completa
+// --- DATOS DE LA BIBLIOTECA DE JUEGOS ---
+// Para añadir un juego nuevo, solo tienes que agregar un objeto a este array.
+const gameLibrary = [
+  {
+    id: 'doom',
+    title: 'DOOM',
+    description: 'El clásico FPS donde luchas contra las hordas del infierno.',
+    // Usando una URL estable para la carátula clásica de DOOM.
+    coverImage: 'https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg', 
+    component: ({ onGoBack }: { onGoBack: () => void }) => <DoomPdfViewer onGoBack={onGoBack} />
+  },
+  {
+    id: 'placeholder',
+    title: 'Próximamente',
+    description: 'Un nuevo desafío espera ser instalado en la terminal.',
+    coverImage: '', // Sin imagen para el placeholder
+    component: null // Sin componente, la tarjeta estará desactivada.
+  }
+];
+
+// --- COMPONENTE PRINCIPAL: Lanzador de Juegos ---
+export default function GameLauncher() {
+  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+
+  const handleSelectGame = (gameId: string) => {
+    const game = gameLibrary.find(g => g.id === gameId);
+    if (game && game.component) {
+      setSelectedGameId(gameId);
+    }
+  };
+
+  const handleGoBack = () => {
+    setSelectedGameId(null);
+  };
+
+  const SelectedGameComponent = gameLibrary.find(g => g.id === selectedGameId)?.component;
+
+  // Si un juego está seleccionado, renderiza el componente de ese juego.
+  if (SelectedGameComponent) {
+    return <SelectedGameComponent onGoBack={handleGoBack} />;
+  }
+
+  // --- VISTA DE LA BIBLIOTECA (Estilo Steam) ---
+  return (
+    <div className="w-full h-full bg-[#1b2838] p-8 rounded-lg shadow-2xl">
+      <div className="flex items-center gap-4 mb-8">
+        <Gamepad2 className="w-10 h-10 text-white" />
+        <div>
+          <h2 className="text-3xl font-bold text-white">Biblioteca de Juegos</h2>
+          <p className="text-gray-400">Selecciona un juego para empezar.</p>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {gameLibrary.map((game) => (
+          <div 
+            key={game.id}
+            className={cn(
+              "group relative rounded-md overflow-hidden shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl",
+              game.component ? "cursor-pointer" : "cursor-not-allowed filter grayscale"
+            )}
+            onClick={() => handleSelectGame(game.id)}
+          >
+            {game.coverImage ? (
+              <Image 
+                src={game.coverImage} 
+                alt={game.title} 
+                width={200} 
+                height={300} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-[300px] bg-gray-800 flex items-center justify-center">
+                <Layers className="w-12 h-12 text-gray-600" />
+              </div>
+            )}
+            <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+              <h3 className="text-white font-bold text-lg">{game.title}</h3>
+              <p className="text-gray-300 text-xs">{game.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+// --- COMPONENTE DEL JUEGO: DOOM PDF Viewer ---
+// Esta es la lógica del visor que ya teníamos, ahora encapsulada.
+function DoomPdfViewer({ onGoBack }: { onGoBack: () => void }) {
+  const [isMaximized, setIsMaximized] = useState(true); // Iniciar maximizado por defecto
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isMaximized) {
+      if (e.key === "Escape") {
         setIsMaximized(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [isMaximized]);
+  }, []);
 
   const toggleMaximize = () => {
     setIsMaximized(!isMaximized);
   };
-
-  /**
-   * Parámetros para forzar un visor de PDF limpio:
-   * #toolbar=0: Oculta la barra de herramientas superior
-   * &navpanes=0: Oculta el panel lateral de navegación
-   * &scrollbar=0: Intenta ocultar la barra de desplazamiento lateral
-   * &view=Fit: Ajusta el contenido al ancho y alto disponible
-   * &pagemode=none: No muestra ningún panel adicional al abrir
-   */
+  
   const pdfUrl = "/doom.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit&pagemode=none";
 
   return (
     <div className={cn(
-      "transition-all duration-300 ease-in-out",
+      "transition-all duration-300 ease-in-out relative",
       isMaximized ? "fixed inset-0 z-[100] p-0 md:p-8 bg-black/95 backdrop-blur-md flex items-center justify-center" : "w-full h-full"
     )}>
+      {/* Botón para volver a la biblioteca */}
+      <button 
+        onClick={onGoBack} 
+        className="absolute top-4 left-4 z-[110] p-2 bg-black/50 text-white rounded-full hover:bg-white hover:text-black transition-all"
+        title="Volver a la Biblioteca"
+      >
+        <ArrowLeft className="w-6 h-6" />
+      </button>
+
       <Card className={cn(
         "bg-[#0a0a0a] border-black overflow-hidden flex flex-col transition-all duration-300",
-        isMaximized 
-          ? "w-full h-full border-[12px] shadow-none" 
-          : "w-full h-full border-[8px] shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]"
+        isMaximized ? "w-full h-full border-[12px] shadow-none" : "w-full h-full border-[8px] shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]"
       )}>
-        {/* Encabezado Estilo Consola Retro */}
         <CardHeader className={cn(
           "border-b-[8px] border-black bg-[#2e7d32] py-4 px-6 transition-all",
           isMaximized ? "py-6" : "py-4"
         )}>
-          <div className="flex items-center justify-between">
+           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="bg-black p-2 border-2 border-yellow-400">
                 <Cpu className="w-6 h-6 text-yellow-400" />
@@ -75,31 +163,18 @@ export default function PdfViewer() {
               >
                 {isMaximized ? <Minimize2 className="w-6 h-6" /> : <Maximize2 className="w-6 h-6" />}
               </button>
-              {isMaximized && (
-                <button 
-                  onClick={() => setIsMaximized(false)}
-                  className="p-2 bg-red-600 border-4 border-black hover:bg-red-700 text-white transition-all shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] active:translate-y-1 active:shadow-none"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              )}
             </div>
           </div>
         </CardHeader>
         
-        {/* Contenedor del "Monitor" */}
         <CardContent className={cn(
           "p-0 flex-1 bg-black relative overflow-hidden",
           isMaximized ? "h-full" : "h-[600px] lg:h-[700px]"
         )}>
-          {/* Marco de Pantalla CRT */}
           <div className="absolute inset-0 border-[20px] border-black pointer-events-none z-20 shadow-inner" />
-          
-          {/* Efecto de Brillo de Pantalla y Scanlines */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent pointer-events-none z-30 opacity-10 scanline" />
           <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)] pointer-events-none z-30" />
 
-          {/* El PDF (El Juego) */}
           <iframe
             src={pdfUrl}
             className="w-full h-full border-none"
@@ -109,7 +184,7 @@ export default function PdfViewer() {
               backgroundColor: '#000'
             }}
           >
-            <div className="flex flex-col items-center justify-center text-center p-12 h-full space-y-6 bg-[#0a0a0a]">
+             <div className="flex flex-col items-center justify-center text-center p-12 h-full space-y-6 bg-[#0a0a0a]">
               <div className="bg-red-600 p-8 border-8 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
                 <ShieldAlert className="w-20 h-20 text-white animate-bounce" />
               </div>
@@ -122,12 +197,11 @@ export default function PdfViewer() {
             </div>
           </iframe>
 
-          {/* HUD de Juego Estilo Retro */}
           <div className={cn(
             "absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-40 transition-all",
             isMaximized ? "bottom-16" : "bottom-10"
           )}>
-            <div className="bg-black border-4 border-[#76ff03] p-4 flex gap-8 items-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+             <div className="bg-black border-4 border-[#76ff03] p-4 flex gap-8 items-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <div className="flex flex-col">
                 <span className="text-[10px] text-[#76ff03] font-mono">SALUD</span>
                 <span className="text-3xl font-black text-white leading-none">100%</span>
@@ -146,7 +220,6 @@ export default function PdfViewer() {
             </div>
           </div>
 
-          {/* Luces de la Consola */}
           <div className="absolute top-8 right-8 flex gap-2 z-40 pointer-events-none">
             <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse shadow-[0_0_10px_rgba(220,38,38,1)]" />
             <div className="w-3 h-3 rounded-full bg-yellow-400 animate-pulse delay-75 shadow-[0_0_10px_rgba(250,204,21,1)]" />
