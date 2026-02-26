@@ -1,0 +1,7 @@
+¡HOLA! 🌻
+Esta es la carpeta donde debes colocar tu archivo PDF.
+
+INSTRUCCIONES:
+1. Arrastra tu archivo PDF aquí.
+2. Renómbralo exactamente como: doom.pdf
+3. ¡Listo! El terminal de Alex Rivera lo cargará automáticamente.

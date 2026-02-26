@@ -9,7 +9,7 @@ Para que el visualizador de DOOM funcione, debes colocar el archivo en la carpet
 ```text
 mi-proyecto/
 ├── public/          <-- ¡AQUÍ VA TU PDF! (Copia aquí tu doom.pdf)
-│   ├── favicon.ico
+│   ├── instrucciones-aqui.txt
 │   └── doom.pdf     <-- Asegúrate de que el nombre sea minúsculas
 ├── src/
 │   ├── app/
@@ -41,7 +41,7 @@ Si tienes errores al subir, usa este comando para forzar la actualización:
 1. **Subir a GitHub**:
    ```bash
    git add .
-   git commit -m "feat: terminal táctico de DOOM"
+   git commit -m "feat: terminal táctico de DOOM y 6 miembros"
    git push -u origin main --force
    ```
 
