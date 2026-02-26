@@ -25,7 +25,7 @@ export default function TeamMemberCard({ member }: { member: Member }) {
       <div className="relative aspect-square w-full bg-gradient-to-b from-[#81d4fa] to-[#01579b] p-4">
         <div className="relative w-full h-full border-4 border-white shadow-lg overflow-hidden">
           <Image
-            src={member.image}
+            src={member.cardImage}
             alt={member.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"

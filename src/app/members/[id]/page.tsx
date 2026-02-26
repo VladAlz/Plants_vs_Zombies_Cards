@@ -64,7 +64,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
             <div className="wooden-panel p-10 transform -rotate-1">
               <div className="relative aspect-square w-full border-8 border-black mb-8 bg-[#81d4fa] overflow-hidden shadow-inner">
                 <Image
-                  src={member.image}
+                  src={member.cardImage}
                   alt={member.name}
                   fill
                   className="object-cover p-6"
@@ -110,7 +110,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   <Waves className="w-10 h-10 text-cyan-200" /> ZONA DE PRUEBAS
                 </h2>
                 <p className="text-white/80 font-bold italic mt-2 uppercase tracking-wide">
-                  ENTRENA A {member.name} PARA REPELERN LA OLEADA DE BUGS.
+                  ENTRENA A {member.name} PARA REPELER LA OLEADA DE BUGS.
                 </p>
               </div>
 

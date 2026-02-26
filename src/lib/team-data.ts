@@ -4,7 +4,8 @@ export type Member = {
   name: string;
   role: string;
   description: string;
-  image: string;
+  packImage: string;
+  cardImage: string;
   toolType: 'game' | 'converter' | 'calculator' | 'pdf-viewer';
   stats: {
     label: string;
@@ -16,11 +17,12 @@ export type Member = {
 
 export const teamMembers: Member[] = [
   {
-    id: 'alex-rivera',
+    id: 'vladimir-gonzalez',
     name: 'Lanza-Código',
     role: 'Defensor del Backend',
     description: 'Dispara líneas de código precisas para derrotar a los bugs. Ha hackeado el sistema para correr DOOM en un PDF táctico.',
-    image: 'https://picsum.photos/seed/pvz-pea/400/400',
+    packImage: '/members/vladimir-prime.jpeg',
+    cardImage: '/members/vladimir.jpeg',
     toolType: 'pdf-viewer',
     color: 'bg-green-600',
     cost: 100,
@@ -31,11 +33,12 @@ export const teamMembers: Member[] = [
     ]
   },
   {
-    id: 'elena-gomez',
+    id: 'william-martinez',
     name: 'Gira-Soles UI',
     role: 'Productora de UX',
     description: 'Genera soles de creatividad para que el equipo pueda desplegar interfaces hermosas. Sin ella, el diseño se queda a oscuras.',
-    image: 'https://picsum.photos/seed/pvz-sun/400/400',
+    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
+    cardImage: '',
     toolType: 'converter',
     color: 'bg-yellow-500',
     cost: 50,
@@ -46,26 +49,28 @@ export const teamMembers: Member[] = [
     ]
   },
   {
-    id: 'julian-smith',
-    name: 'Nuez-React',
-    role: 'Tanque de Frontend',
+    id: 'sebastian-acaro',
+    name: 'ConsultaSETA BD',
+    role: 'Consultas a la BD',
     description: 'Protege las aplicaciones con una capa impenetrable de componentes robustos. Soporta cualquier cantidad de peticiones zombie.',
-    image: 'https://picsum.photos/seed/pvz-nut/400/400',
+    packImage: '/members/sexbas-prime.jpeg',
+    cardImage: '/members/sexbas.jpeg',
     toolType: 'calculator',
     color: 'bg-amber-800',
     cost: 125,
     stats: [
-      { label: 'Dureza (Seguridad)', value: 100 },
-      { label: 'Resistencia', value: 95 },
-      { label: 'Flexibilidad', value: 60 }
+      { label: 'Delete sin where', value: 100 },
+      { label: 'Select * from Table_Name', value: 98 },
+      { label: 'Commit;', value: 85 }
     ]
   },
   {
-    id: 'carlos-perez',
+    id: 'erick-lopez',
     name: 'Pomelo-Project',
     role: 'Líder de Escuadrón',
     description: 'Gestiona los recursos del jardín con una armadura de cítricos. Su liderazgo es el escudo que protege los plazos de entrega.',
-    image: 'https://picsum.photos/seed/pvz-citron/400/400',
+    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
+    cardImage: '',
     toolType: 'calculator',
     color: 'bg-orange-500',
     cost: 200,
@@ -76,11 +81,12 @@ export const teamMembers: Member[] = [
     ]
   },
   {
-    id: 'sofia-ruiz',
+    id: 'pablo-lozada',
     name: 'Sombra-QA',
     role: 'Especialista en Bugs',
     description: 'Se mueve entre las sombras del código para encontrar errores que nadie más ve. Su precisión es quirúrgica.',
-    image: 'https://picsum.photos/seed/pvz-shadow/400/400',
+    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
+    cardImage: '',
     toolType: 'game',
     color: 'bg-purple-800',
     cost: 150,
@@ -91,11 +97,12 @@ export const teamMembers: Member[] = [
     ]
   },
   {
-    id: 'diego-torres',
+    id: 'juan-arcos',
     name: 'Boca-de-Dragón-DevOps',
     role: 'Arquitecto de Nube',
     description: 'Despliega ráfagas de infraestructura escalable. Calienta los servidores para que el despliegue sea un éxito total.',
-    image: 'https://picsum.photos/seed/pvz-dragon/400/400',
+    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
+    cardImage: '',
     toolType: 'converter',
     color: 'bg-red-600',
     cost: 175,
