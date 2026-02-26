@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -5,6 +6,7 @@ import { teamMembers } from "@/lib/team-data";
 import GuessNumber from "@/components/modules/guess-number";
 import UnitConverter from "@/components/modules/unit-converter";
 import BMICalculator from "@/components/modules/bmi-calculator";
+import PdfViewer from "@/components/modules/pdf-viewer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
 
@@ -24,6 +26,8 @@ export default async function MemberPage({ params }: { params: { id: string } })
         return <UnitConverter />;
       case "calculator":
         return <BMICalculator />;
+      case "pdf-viewer":
+        return <PdfViewer />;
       default:
         return null;
     }
@@ -98,7 +102,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
             </div>
           </div>
 
-          {/* Campo de Pruebas - LA PISCINA / PATIO */}
+          {/* Campo de Pruebas */}
           <div className="lg:col-span-8">
             <div className="pvz-pool h-full min-h-[700px] flex flex-col p-10 lg:p-16 border-[12px] border-[#3e2723] rounded-3xl">
               <div className="wooden-panel p-8 mb-16 inline-block self-center text-center transform rotate-1">
@@ -110,8 +114,8 @@ export default async function MemberPage({ params }: { params: { id: string } })
                 </p>
               </div>
 
-              <div className="flex-1 flex items-center justify-center relative z-10">
-                <div className="w-full max-w-2xl bg-white/90 p-8 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,0.5)]">
+              <div className="flex-1 flex items-center justify-center relative z-10 w-full">
+                <div className="w-full max-w-4xl h-full bg-white/90 p-2 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,0.5)] min-h-[550px]">
                   {renderTool()}
                 </div>
               </div>

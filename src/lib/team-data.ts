@@ -5,7 +5,7 @@ export type Member = {
   role: string;
   description: string;
   image: string;
-  toolType: 'game' | 'converter' | 'calculator';
+  toolType: 'game' | 'converter' | 'calculator' | 'pdf-viewer';
   stats: {
     label: string;
     value: number;
@@ -19,9 +19,9 @@ export const teamMembers: Member[] = [
     id: 'alex-rivera',
     name: 'Lanza-Código',
     role: 'Defensor del Backend',
-    description: 'Dispara líneas de código precisas para derrotar a los bugs antes de que lleguen a la casa. Su lógica es inquebrantable.',
+    description: 'Dispara líneas de código precisas para derrotar a los bugs. Ha hackeado el sistema para correr DOOM en un PDF táctico.',
     image: 'https://picsum.photos/seed/pvz-pea/400/400',
-    toolType: 'game',
+    toolType: 'pdf-viewer',
     color: 'bg-green-600',
     cost: 100,
     stats: [
