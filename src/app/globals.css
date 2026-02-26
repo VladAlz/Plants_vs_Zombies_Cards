@@ -4,29 +4,26 @@
 
 @layer base {
   :root {
-    --background: 80 40% 95%; /* Verde muy clarito */
+    --background: 80 40% 98%;
     --foreground: 120 40% 10%;
-    --card: 35 50% 90%; /* Crema/Tierra */
+    --card: 0 0% 100%;
     --card-foreground: 120 40% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 100 60% 40%; /* Verde Hoja */
+    --primary: 100 80% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 30 50% 30%; /* Marrón Tronco */
-    --secondary-foreground: 40 50% 90%;
-    --muted: 100 20% 90%;
-    --muted-foreground: 120 10% 40%;
-    --accent: 45 100% 50%; /* Amarillo Sol */
+    --secondary: 0 0% 40%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 100 10% 95%;
+    --muted-foreground: 120 5% 40%;
+    --accent: 45 100% 50%;
     --accent-foreground: 120 40% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 30 40% 20%;
-    --input: 100 30% 80%;
-    --ring: 100 60% 40%;
-    --radius: 0rem; /* Estilo bloques/cartas */
-  }
-  .dark {
-    /* No implementado específicamente para PvZ para mantener la estética colorida */
+    --border: 0 0% 20%;
+    --input: 100 20% 90%;
+    --ring: 100 80% 40%;
+    --radius: 0.5rem;
   }
 }
 
@@ -39,16 +36,49 @@
   }
 }
 
-.garden-pattern {
-  background-color: #55a630;
-  background-image: radial-gradient(#2b9348 1px, transparent 1px);
-  background-size: 40px 40px;
+.garden-text {
+  @apply font-black italic uppercase tracking-tighter;
+  background: linear-gradient(to bottom, #76ff03, #2e7d32);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,1));
 }
 
-.seed-packet-shadow {
-  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 0.8);
+.warfare-text {
+  @apply font-black italic uppercase tracking-tighter;
+  background: linear-gradient(to bottom, #e0e0e0, #424242);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,1));
+}
+
+.sky-gradient {
+  background: linear-gradient(to bottom, #81d4fa, #e1f5fe, #ffffff);
+}
+
+.grass-pattern {
+  background-color: #4caf50;
+  background-image: linear-gradient(45deg, #43a047 25%, transparent 25%, transparent 75%, #43a047 75%, #43a047), 
+                    linear-gradient(45deg, #43a047 25%, transparent 25%, transparent 75%, #43a047 75%, #43a047);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+.card-warfare {
+  @apply border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200;
+  background: #fff;
+}
+
+.card-warfare:hover {
+  @apply -translate-y-2 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)];
 }
 
 .sun-glow {
-  filter: drop-shadow(0 0 10px rgba(255, 235, 59, 0.8));
+  filter: drop-shadow(0 0 15px rgba(255, 235, 59, 1));
+}
+
+.concrete-panel {
+  background: #bdbdbd;
+  border: 6px solid #212121;
+  box-shadow: inset 4px 4px 0px #eeeeee, inset -4px -4px 0px #424242;
 }
