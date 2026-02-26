@@ -8,35 +8,22 @@ Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombi
 - **Módulos Interactivos**: Cada miembro tiene una herramienta o mini-juego funcional (Adivina el número, Conversor, Calculadora IMC).
 - **Estética PvZ**: Diseño "Neo-Brutalista" con texturas de césped, madera y agua.
 
-## 🛠️ Guía para subir a GitHub
+## 🛠️ Guía para Sincronizar con GitHub
 
-Sigue estos pasos para guardar tu progreso:
+Para guardar tus avances en tu repositorio:
 
-1. **Crea un repositorio en GitHub**:
-   - Ve a [github.com/new](https://github.com/new).
-   - Ponle un nombre (ej. `garden-dev-fare`).
-   - No marques la opción de inicializar con README (ya tenemos uno).
-
-2. **Prepara tu terminal**:
-   Abre la terminal en la raíz de este proyecto y ejecuta:
-
+1. **Configurar el Repositorio Remoto**:
+   Si aún no lo has hecho, abre la terminal y ejecuta:
    ```bash
-   # Inicializar el repositorio local
    git init
+   git remote add origin https://github.com/VladAlz/Plants_vs_Zombies_Cards.git
+   ```
 
-   # Agregar todos los archivos
+2. **Hacer Commit y Push**:
+   ```bash
    git add .
-
-   # Crear el primer commit
    git commit -m "feat: interfaz de sobres estilo Garden Warfare y equipo de desarrollo"
-
-   # Cambiar a la rama principal
    git branch -M main
-
-   # Conectar con tu repositorio de GitHub (reemplaza con tu URL)
-   git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-
-   # Subir los archivos
    git push -u origin main
    ```
 
@@ -45,3 +32,6 @@ Sigue estos pasos para guardar tu progreso:
 - **Estilos**: Tailwind CSS
 - **Componentes**: Shadcn/UI & Lucide Icons
 - **IA**: Google Genkit (Gemini 2.5 Flash)
+
+---
+*© 2024 Garden Dev-Fare Prototyper*
