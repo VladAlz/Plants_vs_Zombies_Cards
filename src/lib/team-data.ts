@@ -34,18 +34,18 @@ export const teamMembers: Member[] = [
   },
   {
     id: 'william-martinez',
-    name: 'Gira-Soles UI',
-    role: 'Productora de UX',
-    description: 'Genera soles de creatividad para que el equipo pueda desplegar interfaces hermosas. Sin ella, el diseño se queda a oscuras.',
-    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
-    cardImage: '',
+    name: 'Gira-Soles',
+    role: 'Productor de UX',
+    description: 'Este juego tiene más parches que llanta de bus interprovincial. El programador cruzó todas las líneas morales (y se saltó todos los try-catch) para traerles esta joya que corre por puro milagro y fe en Dios.',
+    packImage: '/members/william-prime.png',
+    cardImage: '/members/william.png',
     toolType: 'converter',
     color: 'bg-yellow-500',
     cost: 50,
     stats: [
-      { label: 'Producción de Sol', value: 100 },
-      { label: 'Estilo', value: 98 },
-      { label: 'Velocidad', value: 85 }
+      { label: 'Miedo a las Mujeres', value: 100 },
+      { label: 'SELECT * por pura pereza', value: 75 },
+      { label: 'Dureza ante el error:', value: 50 }
     ]
   },
   {
