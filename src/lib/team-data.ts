@@ -108,8 +108,8 @@ export const teamMembers: Member[] = [
     color: 'bg-red-600',
     cost: 175,
     stats: [
-      { label: 'Espanta Viejas', value: 100 },
-      { label: 'Autista(fan de autos)', value: 50 },
+      { label: 'Ciego', value: 60 },
+      { label: 'Tímido👉👈', value: 70 },
       { label: 'Jugador de LoL', value: 100 }
     ]
   }
