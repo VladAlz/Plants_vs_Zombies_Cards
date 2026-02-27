@@ -85,7 +85,10 @@ export default function Home() {
     </section>
 
       {/* The Shop - Grid de Sobres */}
-      <section id="shop" className="py-24 relative bg-radial-gradient(circle at center,#0f1419 0%,#1a1f3a 50%,#000 100%) flex items-center justify-center min-h-screen">
+      <section
+        id="shop"
+        className="py-24 relative pvz-lawn flex items-center justify-center min-h-screen"
+      >
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto bg-[#37474f] border-[8px] border-black p-8 mb-20 text-center transform -rotate-1 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
             <h2 className="text-5xl font-black italic uppercase text-white mb-2 flex items-center justify-center gap-4">
