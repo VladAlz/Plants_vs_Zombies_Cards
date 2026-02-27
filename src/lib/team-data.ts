@@ -51,8 +51,8 @@ export const teamMembers: Member[] = [
   {
     id: 'sebastian-acaro',
     name: 'ConsultaSETA BD',
-    role: 'Consultas a la BD',
-    description: 'Protege las aplicaciones con una capa impenetrable de componentes robustos. Soporta cualquier cantidad de peticiones zombie.',
+    role: 'Senior en BD (segunda matrícula)',
+    description: 'Protege los procesos CRUD con disparos de consultas robustas. Soporta cualquier cantidad de tablas de una BD.',
     packImage: '/members/sexbas-prime.jpeg',
     cardImage: '/members/sexbas.jpeg',
     toolType: 'game',

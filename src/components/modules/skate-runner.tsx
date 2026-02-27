@@ -296,7 +296,7 @@ export default function SkateRunner() {
   }, []);
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full relative min-h-[550px] h-full">
       {/* Canvas */}
       <div className="absolute inset-0 border-4 border-black bg-white rounded-none overflow-hidden">
         <canvas ref={canvasRef} className="w-full h-full block" />

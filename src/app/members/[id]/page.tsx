@@ -43,7 +43,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
             </div>
           </div>
         );
-      
+
       case "game":
         if (member.id === "pablo-lozada") return <GuitarHeroMini />;
         if (member.id === "sebastian-acaro") return <SkateRunner />;
@@ -116,14 +116,14 @@ export default async function MemberPage({ params }: { params: { id: string } })
             <div className="pvz-pool h-full min-h-[700px] flex flex-col p-10 lg:p-16 border-[12px] border-[#3e2723] rounded-3xl">
               <div className="wooden-panel p-8 mb-16 inline-block self-center text-center transform rotate-1">
                 <h2 className="text-5xl font-black italic uppercase text-white flex items-center justify-center gap-4">
-                  <Waves className="w-10 h-10 text-cyan-200" /> ZONA DE PRUEBAS
+                  <Waves className="w-10 h-10 text-cyan-200" /> ZONA DE MEJORAS
                 </h2>
                 <p className="text-white/80 font-bold italic mt-2 uppercase tracking-wide">
                   ENTRENA A {member.name} PARA REPELER LA OLEADA DE BUGS.
                 </p>
               </div>
               <div className="flex-1 flex items-start justify-center relative z-10 w-full">
-                <div className="w-full max-w-6xl bg-transparent p-0 border-none shadow-none">
+                <div className="w-full max-w-6xl bg-transparent p-0 border-none shadow-none min-h-[550px]">
                   {renderTool()}
                 </div>
               </div>
