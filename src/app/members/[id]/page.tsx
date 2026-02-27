@@ -6,6 +6,7 @@ import GuessNumber from "@/components/modules/guess-number";
 import PacmanGame from "@/components/modules/pacman-game";
 import PdfViewer from "@/components/modules/pdf-viewer";
 import SnakeGame from "@/components/modules/SnakeGame";
+import GuitarHeroMini from "@/components/modules/GuitarHeroMini";
 import AnimatedStats from "@/components/animated-stats"; // ← NUEVO IMPORT
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
@@ -21,14 +22,15 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
   const renderTool = () => {
     switch (member.toolType) {
-      case "game":
-        return member.id === "sebastian-acaro" ? <SkateRunner /> : <GuessNumber />;
-
       case "converter":
         return member.id === "juan-arcos" ? <SnakeGame /> : <PacmanGame />;
 
       case "pdf-viewer":
         return <PdfViewer />;
+        case "game":
+          if (member.id === "pablo-lozada") return <GuitarHeroMini />;
+          if (member.id === "sebastian-acaro") return <SkateRunner />;
+          return <GuessNumber />;
 
       default:
         return null;
