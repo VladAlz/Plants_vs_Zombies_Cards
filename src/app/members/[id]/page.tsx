@@ -63,7 +63,8 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
 
   return (
-    <div className="min-h-screen bg-[#5d4037] flex flex-col">
+    <div className="min-h-screen member-bg flex flex-col">
+
       <nav className="border-b-[10px] border-black bg-[#2e7d32] sticky top-0 z-50 h-24">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
           <Button variant="outline" asChild className="border-4 border-black bg-[#ff5252] text-white font-black uppercase italic hover:bg-[#ff1744] hover:text-white rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] h-14">
@@ -88,7 +89,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-4 space-y-10">
             <div className="wooden-panel p-10 transform -rotate-1">
-              <div className="relative aspect-square w-full border-8 border-black mb-8 bg-[#81d4fa] overflow-hidden shadow-inner">
+              <div className="relative aspect-square w-full border-8 border-black mb-8 bg-[#5ad17e] overflow-hidden shadow-inner">
                 <Image
                   src={member.cardImage}
                   alt={member.name}
@@ -100,8 +101,8 @@ export default async function MemberPage({ params }: { params: { id: string } })
                 <h1 className="text-5xl font-black italic uppercase text-white leading-tight mb-2 tracking-tighter drop-shadow-md">
                   {member.name}
                 </h1>
-                <div className="inline-block bg-[#ffeb3b] text-black text-xs font-bold px-4 py-2 uppercase border-2 border-black rotate-1">
-                  ESPECIALISTA EN {member.role.split(' ')[0]}
+                <div className="inline-block bg-[#ffeb3b] text-black text-xs font-bold px-4 py-2 uppercase border-2 border-black rotate-1 leading-tight whitespace-normal">
+                  SENIOR EN {member.role}
                 </div>
               </div>
               <div className="space-y-8">

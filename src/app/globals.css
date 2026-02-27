@@ -115,6 +115,13 @@
   background-repeat: no-repeat;  /* que no se repita */
 }
 
+.member-bg {
+  background-image: url("/members/Fondo-Cesped.png"); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .wooden-panel {
   background: #8d6e63;
   border: 6px solid #4e342e;
@@ -122,8 +129,8 @@
 }
 
 .pvz-pool {
-  background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);
-  border: 8px solid #8d6e63;
+  background: linear-gradient(180deg, #2cc7e6 0%, #41b6f5 100%);
+  border: 8px solid #2b2a2adc;
   box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
 }
 
