@@ -20,16 +20,16 @@ export const teamMembers: Member[] = [
     id: 'vladimir-gonzalez',
     name: 'Lanza-Código',
     role: 'Defensor del Backend',
-    description: 'Mis dos amores, son mi novia y el visual basic',
+    description: 'Mis dos amores son mi novia y el visual basic',
     packImage: '/members/vladimir-prime.jpeg',
     cardImage: '/members/vladimir.jpeg',
     toolType: 'pdf-viewer',
     color: 'bg-green-600',
     cost: 100,
     stats: [
-      { label: 'Chamba', value: 95 },
-      { label: 'Calvicie', value: 10 },
-      { label: 'Mandarina', value: 100}
+      { label: 'Poder Mandarina', value: 95 },
+      { label: 'Chambeo', value: 100 },
+      { label: 'Calvicie', value: 30 }
     ]
   },
   {
@@ -55,7 +55,7 @@ export const teamMembers: Member[] = [
     description: 'Protege las aplicaciones con una capa impenetrable de componentes robustos. Soporta cualquier cantidad de peticiones zombie.',
     packImage: '/members/sexbas-prime.jpeg',
     cardImage: '/members/sexbas.jpeg',
-    toolType: 'calculator',
+    toolType: 'game',
     color: 'bg-amber-800',
     cost: 125,
     stats: [
@@ -84,16 +84,16 @@ export const teamMembers: Member[] = [
     id: 'pablo-lozada',
     name: 'Sombra-QA',
     role: 'Especialista en Bugs',
-    description: 'Se mueve entre las sombras del código para encontrar errores que nadie más ve. Su precisión es quirúrgica.',
-    packImage: 'https://picsum.photos/seed/pvz-sun/400/400',
-    cardImage: '',
+    description: 'Va terapia dejo de ser migajero desde ayer, levanta fierros porque servidores no puede.',
+    packImage: '/members/ImagenPablo1.jpeg',
+    cardImage: '/members/PabloPrime.png',
     toolType: 'game',
     color: 'bg-purple-800',
     cost: 150,
     stats: [
-      { label: 'Sigilo', value: 98 },
-      { label: 'Precisión', value: 92 },
-      { label: 'Detección', value: 100 }
+      { label: 'Perseverante', value: 98 },
+      { label: 'Proxeneta', value: 75 },
+      { label: 'Machista', value: 100 }
     ]
   },
   {

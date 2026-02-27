@@ -72,7 +72,7 @@ export default function BasketballPea() {
           setGameState('idle');
           setScoreGlow(false);
         }, 800);
-      }, 800); // Duración del tiro hacia arriba
+      }, 800);
     }
   };
 
@@ -95,23 +95,12 @@ export default function BasketballPea() {
           className="relative rounded-lg h-96 flex justify-center border-4 border-black/50 overflow-hidden bg-cover bg-center"
           style={{ backgroundImage: "url('/cartoon-court.jpg')" }}
         >
-          {/* FIX: Pelota con animación de trayectoria unificada usando 'bottom' */}
           <div className={cn(
             "absolute w-8 h-8 bg-amber-500 rounded-full shadow-lg transition-all",
-            
-            // Posicionamiento Unificado (left/bottom/transform)
             "left-1/2",
-            
-            // Estado inicial y de puntería
             (gameState === 'idle' || gameState === 'aiming') && 'bottom-4 -translate-x-1/2',
-            
-            // Animación del Tiro (hacia arriba)
             gameState === 'shooting' && 'duration-800 ease-out bottom-[280px] -translate-x-[15px] scale-110',
-
-            // Animación de Canasta (hacia abajo y adentro)
             gameState === 'swoosh' && 'duration-500 ease-in bottom-[215px] -translate-x-[12px] scale-90',
-            
-            // Animación de Fallo (hacia un lado)
             gameState === 'miss' && 'duration-800 ease-in-out bottom-4 -translate-x-[100px] scale-110 rotate-180',
           )}></div>
         </div>

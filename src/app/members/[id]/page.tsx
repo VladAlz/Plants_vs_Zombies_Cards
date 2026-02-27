@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { teamMembers } from "@/lib/team-data";
 import GuessNumber from "@/components/modules/guess-number";
 import PacmanGame from "@/components/modules/pacman-game";
-import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
 import SnakeGame from "@/components/modules/SnakeGame";
 import BasketballPea from "@/components/modules/BasketballPea";
+import GuitarHeroMini from "@/components/modules/GuitarHeroMini";
+import SkateRunner from "@/components/modules/skate-runner";
 import AnimatedStats from "@/components/animated-stats";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves, Gamepad2 } from "lucide-react";
@@ -22,15 +23,11 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
   const renderTool = () => {
     switch (member.toolType) {
-      case "game":
-        return <GuessNumber />;
       case "converter":
-        return member.id === 'juan-arcos' ? <SnakeGame /> : <PacmanGame />;
-      case "calculator":
-        return <BMICalculator />;
+        return member.id === "juan-arcos" ? <SnakeGame /> : <PacmanGame />;
+
       case "pdf-viewer":
         return (
-          // FIX: Quitamos h-full para que el contenedor crezca con el contenido
           <div className="p-4 bg-gray-800">
             <div className="flex items-center gap-3 mb-6">
               <Gamepad2 className="w-10 h-10 text-white" />
@@ -39,23 +36,25 @@ export default async function MemberPage({ params }: { params: { id: string } })
                 <p className="text-sm text-gray-400">Selecciona un juego para empezar.</p>
               </div>
             </div>
-            {/* FIX: Quitamos la altura fija para que cada juego ocupe su espacio necesario */}
             <div className="flex flex-col gap-8">
-              {/* Juego #1: DOOM PDF */}
               <div className="border-4 border-black rounded-lg overflow-hidden hover:shadow-2xl">
                 <PdfViewer />
-              </div>
-              {/* Juego #2: Basketball */}
-              <div className="border-4 border-black rounded-lg overflow-hidden hover:shadow-2xl flex flex-col bg-gray-700">
-                <BasketballPea />
               </div>
             </div>
           </div>
         );
+      
+      case "game":
+        if (member.id === "pablo-lozada") return <GuitarHeroMini />;
+        if (member.id === "sebastian-acaro") return <SkateRunner />;
+        if (member.id === 'vladimir-gonzalez') return <BasketballPea />;
+        return <GuessNumber />;
+
       default:
         return null;
     }
   };
+
 
   return (
     <div className="min-h-screen bg-[#5d4037] flex flex-col">
@@ -67,14 +66,14 @@ export default async function MemberPage({ params }: { params: { id: string } })
             </Link>
           </Button>
           <div className="flex items-center gap-6">
-             <div className="flex flex-col items-end">
-               <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
-               <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{member.role}</span>
-             </div>
-             <div className="bg-yellow-400 border-4 border-black px-6 py-2 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-               <span className="text-3xl font-black">{member.cost}</span>
-               <Sun className="w-8 h-8 fill-black text-black sun-glow" />
-             </div>
+            <div className="flex flex-col items-end">
+              <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
+              <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{member.role}</span>
+            </div>
+            <div className="bg-yellow-400 border-4 border-black px-6 py-2 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <span className="text-3xl font-black">{member.cost}</span>
+              <Sun className="w-8 h-8 fill-black text-black sun-glow" />
+            </div>
           </div>
         </div>
       </nav>
@@ -123,7 +122,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   ENTRENA A {member.name} PARA REPELER LA OLEADA DE BUGS.
                 </p>
               </div>
-              {/* FIX: Alineamos al inicio para evitar que el contenido se corte si es muy alto */}
               <div className="flex-1 flex items-start justify-center relative z-10 w-full">
                 <div className="w-full max-w-6xl bg-transparent p-0 border-none shadow-none">
                   {renderTool()}
