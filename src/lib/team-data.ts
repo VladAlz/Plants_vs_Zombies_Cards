@@ -91,9 +91,9 @@ export const teamMembers: Member[] = [
     color: 'bg-purple-800',
     cost: 150,
     stats: [
-      { label: 'Sigilo', value: 98 },
-      { label: 'Precisión', value: 92 },
-      { label: 'Detección', value: 100 }
+      { label: 'Perseverante', value: 98 },
+      { label: 'Proxeneta', value: 75 },
+      { label: 'Machista', value: 100 }
     ]
   },
   {
