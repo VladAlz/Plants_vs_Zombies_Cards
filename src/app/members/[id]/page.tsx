@@ -6,7 +6,8 @@ import GuessNumber from "@/components/modules/guess-number";
 import PacmanGame from "@/components/modules/pacman-game";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
-import SnakeGame from "@/components/modules/SnakeGame";  // ← NUEVO IMPORT
+import SnakeGame from "@/components/modules/SnakeGame";
+import AnimatedStats from "@/components/animated-stats"; // ← NUEVO IMPORT
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
 
@@ -89,14 +90,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   <h3 className="text-sm font-black uppercase italic mb-6 flex items-center gap-2 text-yellow-400">
                     <Zap className="w-5 h-5" /> HABILIDADES DE JARDÍN
                   </h3>
-                  <div className="grid grid-cols-2 gap-6">
-                    {member.stats.map(s => (
-                      <div key={s.label} className="bg-white border-4 border-black p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="text-[11px] font-black uppercase opacity-60 leading-none mb-1 text-black">{s.label}</div>
-                        <div className="text-2xl font-black italic text-black">{s.value}</div>
-                      </div>
-                    ))}
-                  </div>
+                  <AnimatedStats stats={member.stats} />
                 </div>
               </div>
             </div>
