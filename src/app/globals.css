@@ -109,8 +109,10 @@
 }
 
 .pvz-lawn {
-  background-color: #55a630;
-  background-image: repeating-conic-gradient(#2b9348 0% 25%, #55a630 0% 50%) 50% / 80px 80px;
+  background-image: url("/members/Fondo-Cesped.png");
+  background-size: cover;        /* que cubra todo */
+  background-position: center;   /* centrada */
+  background-repeat: no-repeat;  /* que no se repita */
 }
 
 .wooden-panel {
