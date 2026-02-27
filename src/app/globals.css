@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -132,4 +133,99 @@
 @keyframes pulse-sun {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* ===== NUEVOS ESTILOS DE SOBRES ===== */
+
+:root{
+    --gold-shine: linear-gradient(to bottom,#bf953f,#fcf6ba,#b38728,#fbf5b7,#aa771c);
+}
+
+.pack-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 260px);
+    gap:50px;
+}
+
+.pack{
+    position:relative;
+    width:220px;
+    height:320px;
+    border:12px solid transparent;
+    border-image: var(--gold-shine) 1;
+    box-shadow:0 0 40px rgba(0,0,0,.9), inset 0 0 20px rgba(255,255,255,.2);
+    cursor:pointer;
+    clip-path: polygon(0% 2%,5% 0%,10% 2%,15% 0%,20% 2%,25% 0%,30% 2%,35% 0%,40% 2%,45% 0%,50% 2%,55% 0%,60% 2%,65% 0%,70% 2%,75% 0%,80% 2%,85% 0%,90% 2%,95% 0%,100% 2%,100% 98%,95% 100%,90% 98%,85% 100%,80% 98%,75% 100%,70% 98%,65% 100%,60% 98%,55% 100%,50% 98%,45% 100%,40% 98%,35% 100%,30% 98%,25% 100%,20% 98%,15% 100%,10% 98%,5% 100%,0% 98%);
+    transition: all .35s cubic-bezier(.22,.61,.36,1);
+}
+
+.pack:hover{
+    transform: scale(1.08) rotate(2deg);
+}
+
+.star{
+    position:absolute;
+    top:-22px;
+    right:-22px;
+    width:90px;
+    height:90px;
+    background: radial-gradient(circle,#f1c40f,#e67e22);
+    clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transform: rotate(15deg);
+    border:3px solid white;
+    box-shadow:0 0 10px #f1c40f;
+    color:white;
+    font-size:.75rem;
+    text-shadow:2px 2px 5px #000;
+}
+
+.pack-name{
+    text-align:center;
+    color:#4bcffa;
+    text-shadow:2px 2px #000;
+    font-size:1.2rem;
+    margin-top:8px;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.pack-grid.dimmed .pack{
+    filter: brightness(.35) blur(1px);
+    transform: scale(.9);
+    pointer-events:none;
+}
+
+.pack-grid.dimmed .pack.active{
+    filter: brightness(1) blur(0);
+    transform: scale(1);
+}
+
+.pack.vibrating{
+    animation: packVibrate .35s ease-in-out infinite;
+}
+
+@keyframes packVibrate{
+    0%{ transform: rotate(0deg); }
+    25%{ transform: rotate(1.5deg); }
+    50%{ transform: rotate(-1.5deg); }
+    75%{ transform: rotate(1deg); }
+    100%{ transform: rotate(0deg); }
+}
+
+.pack.zooming{
+    z-index:9999;
+    transform: scale(2.4) rotate(12deg);
+    opacity:0;
+    transition: all .6s cubic-bezier(.22,.61,.36,1);
+}
+
+.screen-flash{
+    position:fixed;
+    inset:0;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+    z-index:99999;
 }
