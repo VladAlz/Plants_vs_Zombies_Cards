@@ -1,4 +1,3 @@
-
 {
   "placeholderImages": [
     {
@@ -10,7 +9,7 @@
     {
       "id": "member-2",
       "description": "Professional portrait of a female designer (Sunflower style)",
-      "imageUrl": "https://picsum.photos/seed/pvz-sun/400/400",
+      "imageUrl": "/members/erick-prime.png",
       "imageHint": "cartoon sunflower"
     },
     {
