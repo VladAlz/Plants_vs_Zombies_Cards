@@ -1,49 +1,12 @@
 # 🌻 Garden Dev-Fare: Sticker Shop Edition
 
-Este es un prototipo interactivo inspirado en la estética de **Plants vs. Zombies: Garden Warfare**.
+Este proyecto es una página web desarrollada para la materia Manejo y Configuración de Software, inspirada visual y conceptualmente en el universo de Plants vs. Zombies. 
 
-## 📁 Estructura del Proyecto (Dónde poner archivos)
-
-Para que el visualizador de DOOM funcione, debes colocar el archivo en la carpeta `public`:
-
-```text
-mi-proyecto/
-├── public/          <-- ¡AQUÍ VA TU PDF! (Copia aquí tu doom.pdf)
-│   ├── instrucciones-aqui.txt
-│   └── doom.pdf     <-- Asegúrate de que el nombre sea minúsculas
-├── src/
-│   ├── app/
-│   ├── components/
-│   └── lib/
-├── package.json
-└── ...
-```
-
-## 🛠️ Cómo ejecutar el proyecto Localmente
-
-1. **Instalación**:
-   ```bash
-   npm install
-   ```
-
-2. **Iniciar**:
-   ```bash
-   npm run dev
-   ```
-Luego abre [http://localhost:3000](http://localhost:3000).
+La aplicación simula una tienda/álbum de fundas de semillas donde cada integrante del equipo aparece como un personaje coleccionable: al abrir su sobre se revela su tarjeta con información, estadísticas y estilo propio, manteniendo una estética tipo videojuego con animaciones y elementos de unboxing.
 
 ---
+## 🤖 Novedades
 
-## 🚀 Cómo subir tus cambios a GitHub
+Cada tarjeta funciona como un perfil interactivo: muestra datos del miembro (rol, descripción, costo/rareza y habilidades) y además incluye una zona de pruebas con un minijuego o herramienta asociada a esa persona. 
 
-Si tienes errores al subir, usa este comando para forzar la actualización:
-
-1. **Subir a GitHub**:
-   ```bash
-   git add .
-   git commit -m "feat: terminal táctico de DOOM y 6 miembros"
-   git push -u origin main --force
-   ```
-
----
-*© 2024 Garden Dev-Fare Prototyper*
+De esta forma, el sitio no solo presenta al equipo, sino que lo hace de manera dinámica y lúdica, combinando diseño temático, navegación por perfiles y módulos interactivos en una experiencia coherente con la ambientación de PvZ.
