@@ -99,7 +99,7 @@ export const teamMembers: Member[] = [
   },
   {
     id: 'juan-arcos',
-    name: 'SCRIPT-KID',
+    name: 'ArquiNuez Cloud',
     role: 'Arquitecto de Nube',
     description: 'Su único vicio es la programación y las Arquinenas. Todo lo dicho y hecho aquí no representa lo que soy (más o menos).',
     packImage: '/members/juan-prime.jpeg',
@@ -109,8 +109,8 @@ export const teamMembers: Member[] = [
     cost: 175,
     stats: [
       { label: 'Espanta Viejas', value: 100 },
-      { label: 'Homofobia', value: 50 },
-      { label: 'Inimputable', value: 0 }
+      { label: 'Autista(fan de autos)', value: 50 },
+      { label: 'Jugador de LoL', value: 100 }
     ]
   }
 ];
