@@ -9,6 +9,7 @@ import SnakeGame from "@/components/modules/SnakeGame";
 import BasketballPea from "@/components/modules/BasketballPea";
 import GuitarHeroMini from "@/components/modules/GuitarHeroMini";
 import SkateRunner from "@/components/modules/skate-runner";
+import SpaceInvaders from "@/components/modules/space-invaders";
 import AnimatedStats from "@/components/animated-stats";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves, Gamepad2 } from "lucide-react";
@@ -25,6 +26,11 @@ export default async function MemberPage({ params }: { params: { id: string } })
     switch (member.toolType) {
       case "converter":
         return member.id === "juan-arcos" ? <SnakeGame /> : <PacmanGame />;
+
+      case "calculator":
+        // cárcel de erick-lopez convertimos a Space Invaders
+        if (member.id === "erick-lopez") return <SpaceInvaders />;
+        return null;
 
       case "pdf-viewer":
         return (

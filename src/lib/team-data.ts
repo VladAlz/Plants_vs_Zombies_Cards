@@ -68,16 +68,17 @@ export const teamMembers: Member[] = [
     id: 'erick-lopez',
     name: 'Pomelo-Project',
     role: 'Líder de Escuadrón',
-    description: 'Gestiona los recursos del jardín con una armadura de cítricos. Su liderazgo es el escudo que protege los plazos de entrega.',
+    description: 'No soy puntual pero ese proyecto sale porque sale',
     packImage: '/members/erick-prime.png',
     cardImage: '/members/erick.jpeg',
     toolType: 'calculator',
     color: 'bg-orange-500',
     cost: 200,
     stats: [
-      { label: 'Gestión', value: 90 },
-      { label: 'Liderazgo', value: 95 },
-      { label: 'Dureza', value: 85 }
+      { label: 'Chambeador', value: 95 },
+      { label: 'Puntualidad', value: 0 },
+      { label: 'Bebedor', value: 70 },
+      { label: 'Calvicie', value: 40 }
     ]
   },
   {
