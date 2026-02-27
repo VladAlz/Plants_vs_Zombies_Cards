@@ -5,24 +5,23 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Maximize2, Minimize2, ShieldAlert, Cpu, X, ArrowLeft, Gamepad2, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import BasketballPea from "@/components/modules/BasketballPea"; // Importamos el juego de baloncesto
 
 // --- DATOS DE LA BIBLIOTECA DE JUEGOS ---
-// Para añadir un juego nuevo, solo tienes que agregar un objeto a este array.
 const gameLibrary = [
   {
     id: 'doom',
     title: 'DOOM',
     description: 'El clásico FPS donde luchas contra las hordas del infierno.',
-    // Usando una URL estable para la carátula clásica de DOOM.
-    coverImage: 'https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg', 
+    coverImage: 'https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg',
     component: ({ onGoBack }: { onGoBack: () => void }) => <DoomPdfViewer onGoBack={onGoBack} />
   },
   {
     id: 'placeholder',
     title: 'Próximamente',
     description: 'Un nuevo desafío espera ser instalado en la terminal.',
-    coverImage: '', // Sin imagen para el placeholder
-    component: null // Sin componente, la tarjeta estará desactivada.
+    coverImage: '', 
+    component: null
   }
 ];
 
@@ -43,51 +42,67 @@ export default function GameLauncher() {
 
   const SelectedGameComponent = gameLibrary.find(g => g.id === selectedGameId)?.component;
 
-  // Si un juego está seleccionado, renderiza el componente de ese juego.
   if (SelectedGameComponent) {
     return <SelectedGameComponent onGoBack={handleGoBack} />;
   }
 
-  // --- VISTA DE LA BIBLIOTECA (Estilo Steam) ---
+  // --- VISTA DE LA BIBLIOTECA + ZONA DE PRUEBAS ---
   return (
-    <div className="w-full h-full bg-[#1b2838] p-8 rounded-lg shadow-2xl">
-      <div className="flex items-center gap-4 mb-8">
-        <Gamepad2 className="w-10 h-10 text-white" />
-        <div>
-          <h2 className="text-3xl font-bold text-white">Biblioteca de Juegos</h2>
-          <p className="text-gray-400">Selecciona un juego para empezar.</p>
-        </div>
-      </div>
+    // Usamos un div contenedor para la sección completa de "ZONA DE PRUEBAS"
+    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-[#004d40] rounded-2xl shadow-2xl border-4 border-black/50">
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {gameLibrary.map((game) => (
-          <div 
-            key={game.id}
-            className={cn(
-              "group relative rounded-md overflow-hidden shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl",
-              game.component ? "cursor-pointer" : "cursor-not-allowed filter grayscale"
-            )}
-            onClick={() => handleSelectGame(game.id)}
-          >
-            {game.coverImage ? (
-              <Image 
-                src={game.coverImage} 
-                alt={game.title} 
-                width={200} 
-                height={300} 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-[300px] bg-gray-800 flex items-center justify-center">
-                <Layers className="w-12 h-12 text-gray-600" />
-              </div>
-            )}
-            <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-              <h3 className="text-white font-bold text-lg">{game.title}</h3>
-              <p className="text-gray-300 text-xs">{game.description}</p>
-            </div>
+      {/* Título de la sección */}
+      <div className="text-center mb-6 md:mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-wider">ZONA DE PRUEBAS</h2>
+        <p className="text-white/80 text-sm md:text-base">Entrena a lanza-código para repeler la oleada de bugs.</p>
+      </div>
+
+      {/* Tarjeta principal que contiene la biblioteca y el minijuego */}
+      <div className="w-full h-full bg-[#1b2838] p-6 md:p-8 rounded-lg shadow-inner">
+        <div className="flex items-center gap-4 mb-8">
+          <Gamepad2 className="w-10 h-10 text-white" />
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">Biblioteca de Juegos</h2>
+            <p className="text-gray-400">Selecciona un juego para empezar.</p>
           </div>
-        ))}
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {gameLibrary.map((game) => (
+            <div 
+              key={game.id}
+              className={cn(
+                "group relative rounded-md overflow-hidden shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl",
+                game.component ? "cursor-pointer" : "cursor-not-allowed filter grayscale"
+              )}
+              onClick={() => handleSelectGame(game.id)}
+            >
+              {game.coverImage ? (
+                <Image 
+                  src={game.coverImage} 
+                  alt={game.title} 
+                  width={200} 
+                  height={300} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-[300px] bg-gray-800 flex items-center justify-center">
+                  <Layers className="w-12 h-12 text-gray-600" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                <h3 className="text-white font-bold text-lg">{game.title}</h3>
+                <p className="text-gray-300 text-xs">{game.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Separador visual antes del minijuego */}
+        <hr className="border-t-4 border-dashed border-white/10 my-8" />
+
+        {/* El minijuego de baloncesto se renderiza aquí debajo */}
+        <BasketballPea />
       </div>
     </div>
   );
@@ -95,9 +110,8 @@ export default function GameLauncher() {
 
 
 // --- COMPONENTE DEL JUEGO: DOOM PDF Viewer ---
-// Esta es la lógica del visor que ya teníamos, ahora encapsulada.
 function DoomPdfViewer({ onGoBack }: { onGoBack: () => void }) {
-  const [isMaximized, setIsMaximized] = useState(true); // Iniciar maximizado por defecto
+  const [isMaximized, setIsMaximized] = useState(true);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -120,7 +134,6 @@ function DoomPdfViewer({ onGoBack }: { onGoBack: () => void }) {
       "transition-all duration-300 ease-in-out relative",
       isMaximized ? "fixed inset-0 z-[100] p-0 md:p-8 bg-black/95 backdrop-blur-md flex items-center justify-center" : "w-full h-full"
     )}>
-      {/* Botón para volver a la biblioteca */}
       <button 
         onClick={onGoBack} 
         className="absolute top-4 left-4 z-[110] p-2 bg-black/50 text-white rounded-full hover:bg-white hover:text-black transition-all"
