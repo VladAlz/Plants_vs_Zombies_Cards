@@ -45,7 +45,7 @@ export const teamMembers: Member[] = [
     stats: [
       { label: 'Miedo a las Mujeres', value: 100 },
       { label: 'SELECT * por pura pereza', value: 75 },
-      { label: 'Dureza ante el error:', value: 50 }
+      { label: 'Migajero:', value: 50 }
     ]
   },
   {
