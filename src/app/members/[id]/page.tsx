@@ -4,12 +4,12 @@ import { notFound } from "next/navigation";
 import { teamMembers } from "@/lib/team-data";
 import GuessNumber from "@/components/modules/guess-number";
 import PacmanGame from "@/components/modules/pacman-game";
-import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
 import SnakeGame from "@/components/modules/SnakeGame";
 import AnimatedStats from "@/components/animated-stats"; // ← NUEVO IMPORT
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
+import SkateRunner from "@/components/modules/skate-runner";
 
 export default async function MemberPage({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -22,17 +22,19 @@ export default async function MemberPage({ params }: { params: { id: string } })
   const renderTool = () => {
     switch (member.toolType) {
       case "game":
-        return <GuessNumber />;
+        return member.id === "sebastian-acaro" ? <SkateRunner /> : <GuessNumber />;
+
       case "converter":
-        return member.id === 'juan-arcos' ? <SnakeGame /> : <PacmanGame />;
-      case "calculator":
-        return <BMICalculator />;
+        return member.id === "juan-arcos" ? <SnakeGame /> : <PacmanGame />;
+
       case "pdf-viewer":
         return <PdfViewer />;
+
       default:
         return null;
     }
   };
+
 
   return (
     <div className="min-h-screen bg-[#5d4037] flex flex-col">
@@ -44,16 +46,16 @@ export default async function MemberPage({ params }: { params: { id: string } })
               <ArrowLeft className="w-6 h-6 mr-2" /> REPLEGARSE
             </Link>
           </Button>
-          
+
           <div className="flex items-center gap-6">
-             <div className="flex flex-col items-end">
-               <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
-               <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{member.role}</span>
-             </div>
-             <div className="bg-yellow-400 border-4 border-black px-6 py-2 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-               <span className="text-3xl font-black">{member.cost}</span>
-               <Sun className="w-8 h-8 fill-black text-black sun-glow" />
-             </div>
+            <div className="flex flex-col items-end">
+              <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
+              <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{member.role}</span>
+            </div>
+            <div className="bg-yellow-400 border-4 border-black px-6 py-2 flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <span className="text-3xl font-black">{member.cost}</span>
+              <Sun className="w-8 h-8 fill-black text-black sun-glow" />
+            </div>
           </div>
         </div>
       </nav>
@@ -71,7 +73,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   className="object-cover p-6"
                 />
               </div>
-              
+
               <div className="mb-8 text-center">
                 <h1 className="text-5xl font-black italic uppercase text-white leading-tight mb-2 tracking-tighter drop-shadow-md">
                   {member.name}

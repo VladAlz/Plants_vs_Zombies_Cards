@@ -55,7 +55,7 @@ export const teamMembers: Member[] = [
     description: 'Protege las aplicaciones con una capa impenetrable de componentes robustos. Soporta cualquier cantidad de peticiones zombie.',
     packImage: '/members/sexbas-prime.jpeg',
     cardImage: '/members/sexbas.jpeg',
-    toolType: 'calculator',
+    toolType: 'game',
     color: 'bg-amber-800',
     cost: 125,
     stats: [
