@@ -1,14 +1,19 @@
+"use client";
 import Link from "next/link";
+import { useState } from "react";
 import { teamMembers } from "@/lib/team-data";
 import StickerPack from "@/components/sticker-pack";
 import { Button } from "@/components/ui/button";
-import BackgroundMusic from "@/components/ui/BackgroundMusic";  // ← NUEVO IMPORT
+import BackgroundMusic from "@/components/ui/BackgroundMusic";
 import { Sun, ShieldAlert, Skull, Waves, ShoppingCart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const [activePack, setActivePack] = useState<string | null>(null);
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#263238]">
-      {/* Header Estilo Menu GW + MÚSICA */}
+    <div className="min-h-screen flex flex-col bg-[#263238] overflow-hidden">
+       {/* Header Estilo Menu GW + MÚSICA */}
       <nav className="h-20 bg-[#37474f] border-b-8 border-black sticky top-0 z-50">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -80,9 +85,7 @@ export default function Home() {
     </section>
 
       {/* The Shop - Grid de Sobres */}
-      <section id="shop" className="py-24 pvz-lawn relative">
-        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-        
+      <section id="shop" className="py-24 relative bg-radial-gradient(circle at center,#0f1419 0%,#1a1f3a 50%,#000 100%) flex items-center justify-center min-h-screen">
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto bg-[#37474f] border-[8px] border-black p-8 mb-20 text-center transform -rotate-1 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
             <h2 className="text-5xl font-black italic uppercase text-white mb-2 flex items-center justify-center gap-4">
@@ -92,10 +95,15 @@ export default function Home() {
               ¡Garantizado al menos un programador Raro o Consumible de Backend!
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+          
+          <div className={cn("pack-grid justify-center", activePack && "dimmed")}>
             {teamMembers.map((member) => (
-              <StickerPack key={member.id} member={member} />
+              <StickerPack 
+                key={member.id} 
+                member={member} 
+                setActivePack={setActivePack} 
+                isActive={activePack === member.id}
+              />
             ))}
           </div>
         </div>
@@ -128,6 +136,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Elemento para el flash */}
+      <div id="flash" className="screen-flash"></div>
     </div>
   );
 }
