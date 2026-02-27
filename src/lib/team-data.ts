@@ -20,16 +20,16 @@ export const teamMembers: Member[] = [
     id: 'vladimir-gonzalez',
     name: 'Lanza-Código',
     role: 'Defensor del Backend',
-    description: 'Dispara líneas de código precisas para derrotar a los bugs. Ha hackeado el sistema para correr DOOM en un PDF táctico.',
+    description: 'Mis dos amores, son mi novia y el visual basic',
     packImage: '/members/vladimir-prime.jpeg',
     cardImage: '/members/vladimir.jpeg',
     toolType: 'pdf-viewer',
     color: 'bg-green-600',
     cost: 100,
     stats: [
-      { label: 'Daño (Lógica)', value: 95 },
-      { label: 'Recarga', value: 80 },
-      { label: 'Dureza', value: 70 }
+      { label: 'Chamba', value: 95 },
+      { label: 'Calvicie', value: 10 },
+      { label: 'Mandarina', value: 100}
     ]
   },
   {

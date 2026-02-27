@@ -7,9 +7,10 @@ import PacmanGame from "@/components/modules/pacman-game";
 import BMICalculator from "@/components/modules/bmi-calculator";
 import PdfViewer from "@/components/modules/pdf-viewer";
 import SnakeGame from "@/components/modules/SnakeGame";
-import AnimatedStats from "@/components/animated-stats"; // ← NUEVO IMPORT
+import BasketballPea from "@/components/modules/BasketballPea";
+import AnimatedStats from "@/components/animated-stats";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sun, Zap, Crosshair, Waves } from "lucide-react";
+import { ArrowLeft, Sun, Zap, Crosshair, Waves, Gamepad2 } from "lucide-react";
 
 export default async function MemberPage({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -28,7 +29,29 @@ export default async function MemberPage({ params }: { params: { id: string } })
       case "calculator":
         return <BMICalculator />;
       case "pdf-viewer":
-        return <PdfViewer />;
+        return (
+          // FIX: Quitamos h-full para que el contenedor crezca con el contenido
+          <div className="p-4 bg-gray-800">
+            <div className="flex items-center gap-3 mb-6">
+              <Gamepad2 className="w-10 h-10 text-white" />
+              <div>
+                <h3 className="text-2xl font-bold text-white">Biblioteca de Juegos</h3>
+                <p className="text-sm text-gray-400">Selecciona un juego para empezar.</p>
+              </div>
+            </div>
+            {/* FIX: Quitamos la altura fija para que cada juego ocupe su espacio necesario */}
+            <div className="flex flex-col gap-8">
+              {/* Juego #1: DOOM PDF */}
+              <div className="border-4 border-black rounded-lg overflow-hidden hover:shadow-2xl">
+                <PdfViewer />
+              </div>
+              {/* Juego #2: Basketball */}
+              <div className="border-4 border-black rounded-lg overflow-hidden hover:shadow-2xl flex flex-col bg-gray-700">
+                <BasketballPea />
+              </div>
+            </div>
+          </div>
+        );
       default:
         return null;
     }
@@ -36,7 +59,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
   return (
     <div className="min-h-screen bg-[#5d4037] flex flex-col">
-      {/* Barra de Navegación de Batalla */}
       <nav className="border-b-[10px] border-black bg-[#2e7d32] sticky top-0 z-50 h-24">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
           <Button variant="outline" asChild className="border-4 border-black bg-[#ff5252] text-white font-black uppercase italic hover:bg-[#ff1744] hover:text-white rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] h-14">
@@ -44,7 +66,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
               <ArrowLeft className="w-6 h-6 mr-2" /> REPLEGARSE
             </Link>
           </Button>
-          
           <div className="flex items-center gap-6">
              <div className="flex flex-col items-end">
                <span className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">{member.name}</span>
@@ -60,7 +81,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
       <main className="container mx-auto px-4 py-16 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Ficha de Personaje */}
           <div className="lg:col-span-4 space-y-10">
             <div className="wooden-panel p-10 transform -rotate-1">
               <div className="relative aspect-square w-full border-8 border-black mb-8 bg-[#81d4fa] overflow-hidden shadow-inner">
@@ -71,7 +91,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   className="object-cover p-6"
                 />
               </div>
-              
               <div className="mb-8 text-center">
                 <h1 className="text-5xl font-black italic uppercase text-white leading-tight mb-2 tracking-tighter drop-shadow-md">
                   {member.name}
@@ -80,12 +99,10 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   ESPECIALISTA EN {member.role.split(' ')[0]}
                 </div>
               </div>
-
               <div className="space-y-8">
                 <div className="bg-black/20 p-6 border-l-8 border-yellow-400 italic font-bold text-white text-lg">
                   "{member.description}"
                 </div>
-
                 <div className="pt-8 border-t-4 border-white/20">
                   <h3 className="text-sm font-black uppercase italic mb-6 flex items-center gap-2 text-yellow-400">
                     <Zap className="w-5 h-5" /> HABILIDADES DE JARDÍN
@@ -96,7 +113,6 @@ export default async function MemberPage({ params }: { params: { id: string } })
             </div>
           </div>
 
-          {/* Campo de Pruebas */}
           <div className="lg:col-span-8">
             <div className="pvz-pool h-full min-h-[700px] flex flex-col p-10 lg:p-16 border-[12px] border-[#3e2723] rounded-3xl">
               <div className="wooden-panel p-8 mb-16 inline-block self-center text-center transform rotate-1">
@@ -107,9 +123,9 @@ export default async function MemberPage({ params }: { params: { id: string } })
                   ENTRENA A {member.name} PARA REPELER LA OLEADA DE BUGS.
                 </p>
               </div>
-
-              <div className="flex-1 flex items-center justify-center relative z-10 w-full">
-                <div className="w-full max-w-4xl h-full bg-white/90 p-2 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,0.5)] min-h-[550px]">
+              {/* FIX: Alineamos al inicio para evitar que el contenido se corte si es muy alto */}
+              <div className="flex-1 flex items-start justify-center relative z-10 w-full">
+                <div className="w-full max-w-6xl bg-transparent p-0 border-none shadow-none">
                   {renderTool()}
                 </div>
               </div>
