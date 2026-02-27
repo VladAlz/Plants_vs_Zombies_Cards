@@ -19,7 +19,13 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #0f1419 0%, #1a1f3a 50%, #000 100%);
+            background-image: url("/members/fondo-noche-pvz.jpg");
+            /* <-- TU IMAGEN */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,12 +36,21 @@
             color: white;
         }
 
-        #shop-view {
-            position: absolute;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Oscurecer un poquito para que resalten elementos (opcional) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 70%, rgba(0, 0, 0, 0.55) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Asegura que tu contenido esté por encima del overlay */
+        #shop-view,
+        #album-view {
+            position: relative;
+            z-index: 1;
         }
 
         .envelope-realistic {

@@ -39,7 +39,7 @@ export default function SkateRunner() {
   const colors = useMemo(
     () => ({
       sky: "#7dd3fc",
-      ground: "#53B558",
+      ground: "#53B558" ,
       ground2: "#f59e0b",
       player: "#075BBA",
       player2: "#075BBA",
