@@ -113,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-black text-white border-t-[12px] border-[#76ff03]">
+      <footer className="py-16 bg-#37474F text-white border-t-[12px] border-black">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="flex flex-col items-center md:items-start">
             <span className="text-4xl garden-text">GARDEN</span>

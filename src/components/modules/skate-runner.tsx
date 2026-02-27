@@ -29,15 +29,20 @@ export default function SkateRunner() {
     jumpsUsed: 0,
   });
 
-  const [ui, setUi] = useState({ running: false, paused: false, score: 0 });
+  const [ui, setUi] = useState({
+    running: false,
+    paused: false,
+    score: 0,
+    dead: false,
+  });
 
   const colors = useMemo(
     () => ({
       sky: "#7dd3fc",
-      ground: "#facc15",
+      ground: "#53B558",
       ground2: "#f59e0b",
-      player: "#22c55e",
-      player2: "#16a34a",
+      player: "#075BBA",
+      player2: "#075BBA",
       obstacle: "#94a3b8",
       obstacle2: "#475569",
       text: "#0f172a",
@@ -59,13 +64,13 @@ export default function SkateRunner() {
     setUi((prev) => ({ ...prev, score: 0 }));
   };
 
-  const crashAndRestart = () => {
-    // Reinicio instantáneo (sin game over)
-    reset();
+  const crash = () => {
+    runningRef.current = false;
+    setUi((p) => ({ ...p, running: false, paused: false, dead: true }));
   };
 
   const jump = () => {
-    if (!runningRef.current) return;
+    if (!runningRef.current || ui.dead) return;
 
     const p = playerRef.current;
     if (p.jumpsUsed >= 2) return;
@@ -85,9 +90,21 @@ export default function SkateRunner() {
     if (runningRef.current) return;
     runningRef.current = true;
     lastTRef.current = 0;
-    setUi({ running: true, paused: false, score: 0 });
+    setUi({ running: true, paused: false, score: 0, dead: false });
     rafRef.current = requestAnimationFrame(loop);
   };
+
+  const restart = () => {
+    reset();
+    setUi({ running: true, paused: false, score: 0, dead: false });
+    runningRef.current = true;
+    lastTRef.current = 0;
+
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(loop);
+    }
+  };
+
 
   const pause = () => {
     if (!runningRef.current) return;
@@ -149,7 +166,7 @@ export default function SkateRunner() {
     for (const o of obs) {
       const oy = groundY - o.h;
       if (aabb(p.x, p.y, p.w, p.h, o.x, oy, o.w, o.h)) {
-        crashAndRestart();
+        crash();
         break;
       }
     }
@@ -312,6 +329,29 @@ export default function SkateRunner() {
             className="rounded-none border-4 border-black font-black uppercase italic px-10 py-8 text-2xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
           >
             START
+          </Button>
+        </div>
+      )}
+
+      {ui.dead && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 text-white gap-4">
+          <div className="text-center px-6">
+            <div className="text-4xl md:text-5xl font-black uppercase italic drop-shadow">
+              MALO (No eres bueno para ella y vas a ser bueno para los videojuegos)
+            </div>
+            <div className="mt-2 text-sm font-bold opacity-80 uppercase tracking-widest"><br />
+              Score final: {ui.score}
+            </div>
+            <div className="mt-4 text-base font-bold opacity-90"><br />
+              Presiona Reiniciar
+            </div>
+          </div>
+
+          <Button
+            onClick={restart}
+            className="rounded-none border-4 border-black font-black uppercase italic px-10 py-6 text-xl bg-[#76ff03] hover:bg-[#64dd17] text-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+          >
+            Reiniciar
           </Button>
         </div>
       )}
